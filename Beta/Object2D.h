@@ -15,7 +15,7 @@ struct Transform2D {
 
 	Quad local; // 四角形の4頂点座標
 	Vector2 worldPos; // 回転・拡大の中心点
-	float rotation = 0.0f; // 回転角度（ラジアン）
+	float rotation = 0.0f; // 回転角
 	Vector2 scale = { 1.0f,1.0f }; // 拡大率
 	float width;  // 幅
 	float height; // 高さ

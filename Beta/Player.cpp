@@ -1,9 +1,10 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "Player.h"
-
 
 void Player::Init() {
 	// 1. 基本ステータスのリセット
-	transform.Init({ 640.0f,360.0f }, 50.0f, 50.0f);	// 初期座標
+	transform.Init({ 640.0f,360.0f }, 68.0f, 68.0f);	// 初期座標
 	velocity = { 0.0f, 0.0f };							// 速度をゼロにする
 	hp = 3;
 
@@ -23,12 +24,19 @@ void Player::Init() {
 
 	// GameConfig の初期値が TOP なら、それに対応する重力方向をセットする
 	gravity = { 0.0f, -gravityStrength };
-	
+
+	//テクスチャ回転イージング初期化
+	rotateEasing.Init(0.0f,0.0f,20,EasingType::EASING_EASE_IN_OUT_CUBIC);
+
+	direction = TOP;
+	preDirection = TOP;
+	targetRotation = 0.0f;
 }
 
 //更新処理
 void Player::Update(char* keys, char* preKeys, const Transform2D& stage) {
 	Move(keys, preKeys, stage);
+	RotateTexture();
 }
 
 //描画処理
@@ -74,32 +82,14 @@ void Player::Move(char* keys, char* preKeys, const Transform2D& stage) {
 
 	ClampToStage(stage);
 
-
 }
 
 void Player::OnGroundMove() {
 	onGround = false;
 	canChangeGravity = true;
-	if (gravity.x == 0.0f && gravity.y == 0.0f) {
-		switch (GameConfig::GetInstance()->GetStageState()) {
-		case GameConfig::TOP:
-
-			gravity = { 0.0f,gravityStrength };
-			break;
-		case GameConfig::BOTTOM:
-
-			gravity = { 0.0f,-gravityStrength };
-			break;
-		case GameConfig::LEFT:
-			gravity = { -gravityStrength,0.0f };
-			break;
-		case GameConfig::RIGHT:
-
-			gravity = { gravityStrength,0.0f };
-			break;
-
-		}
-	}
+	velocity = { 0.0f,0.0f };
+	gravity = { 0.0f,0.0f };
+	directionChangeLeft = maxDirectionChange;
 }
 
 
@@ -111,21 +101,25 @@ void Player::InAirMove(char* keys, char* preKeys) {
 			velocity = { 0.0f,0.0f };
 			gravity = { 0.0f,gravityStrength };
 			directionChangeLeft--;
+			direction = TOP;
 		}
 		if (keys[DIK_S] && !preKeys[DIK_S]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { 0.0f,-gravityStrength };
 			directionChangeLeft--;
+			direction = BOTTOM;
 		}
 		if (keys[DIK_A] && !preKeys[DIK_A]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { -gravityStrength,0.0f };
 			directionChangeLeft--;
+			direction = LEFT;
 		}
 		if (keys[DIK_D] && !preKeys[DIK_D]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { gravityStrength,0.0f };
 			directionChangeLeft--;
+			direction = RIGHT;
 		}
 		break;
 
@@ -135,21 +129,25 @@ void Player::InAirMove(char* keys, char* preKeys) {
 			velocity = { 0.0f,0.0f };
 			gravity = { 0.0f,-gravityStrength };
 			directionChangeLeft--;
+			direction = BOTTOM;
 		}
 		if (keys[DIK_S] && !preKeys[DIK_S]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { 0.0f,gravityStrength };
 			directionChangeLeft--;
+			direction = TOP;
 		}
 		if (keys[DIK_A] && !preKeys[DIK_A]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { gravityStrength,0.0f };
 			directionChangeLeft--;
+			direction = RIGHT;
 		}
 		if (keys[DIK_D] && !preKeys[DIK_D]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { -gravityStrength,0.0f };
 			directionChangeLeft--;
+			direction = LEFT;
 		}
 		break;
 		//----------------------------------------------------------------------
@@ -158,21 +156,25 @@ void Player::InAirMove(char* keys, char* preKeys) {
 			velocity = { 0.0f,0.0f };
 			gravity = { -gravityStrength,0.0f };
 			directionChangeLeft--;
+			direction = LEFT;
 		}
 		if (keys[DIK_S] && !preKeys[DIK_S]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { gravityStrength,0.0f };
 			directionChangeLeft--;
+			direction = RIGHT;
 		}
 		if (keys[DIK_A] && !preKeys[DIK_A]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { 0.0f,-gravityStrength };
 			directionChangeLeft--;
+			direction = BOTTOM;
 		}
 		if (keys[DIK_D] && !preKeys[DIK_D]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { 0.0f,gravityStrength };
 			directionChangeLeft--;
+			direction = TOP;
 		}
 		break;
 		//------------------------------------------------------------------
@@ -181,21 +183,25 @@ void Player::InAirMove(char* keys, char* preKeys) {
 			velocity = { 0.0f,0.0f };
 			gravity = { gravityStrength,0.0f };
 			directionChangeLeft--;
+			direction = RIGHT;
 		}
 		if (keys[DIK_S] && !preKeys[DIK_S]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { -gravityStrength,0.0f };
 			directionChangeLeft--;
+			direction = LEFT;
 		}
 		if (keys[DIK_A] && !preKeys[DIK_A]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { 0.0f,gravityStrength };
 			directionChangeLeft--;
+			direction = TOP;
 		}
 		if (keys[DIK_D] && !preKeys[DIK_D]) {
 			velocity = { 0.0f,0.0f };
 			gravity = { 0.0f,-gravityStrength };
 			directionChangeLeft--;
+			direction = BOTTOM;
 		}
 		break;
 	}
@@ -229,13 +235,52 @@ void Player::ClampToStage(const Transform2D& stage) {
 		onGround = true;
 		GameConfig::GetInstance()->SetStageState(GameConfig::TOP);
 	}
-
-	//地面にいるか判定
-	if (onGround) {
-		velocity = { 0.0f,0.0f };
-		directionChangeLeft = maxDirectionChange;
-	}
 }
+
+//テクスチャ回転処理
+void Player::RotateTexture() {
+	
+	if (direction != preDirection) {
+		float target = 0.0f;
+		switch (direction) {
+		case TOP:    target = 0.0f;   break;
+		case BOTTOM: target = 180.0f; break;
+		case LEFT:   target = 270.0f; break;
+		case RIGHT:  target = 90.0f;  break;
+		}
+
+		// --- 最短経路の計算 ---
+		// 現在の角度を 0~360 の範囲に収める (念のため)
+		float current = fmodf(transform.rotation, 360.0f);
+		if (current < 0) current += 360.0f;
+
+		// 差分を求める
+		float diff = target - current;
+
+		// 差分が 180度 を超える場合は、逆回転の方が近い
+		if (diff > 180.0f) {
+			diff -= 360.0f;
+		}
+		else if (diff < -180.0f) {
+			diff += 360.0f;
+		}
+
+		// 現在の角度から、最短の差分を足したものを新しい目標にする
+		float finalTarget = current + diff;
+		// ----------------------
+
+		// イージング初期化
+		rotateEasing.Init(current, finalTarget, 5, EasingType::EASING_EASE_IN_OUT_CUBIC);
+		rotateEasing.Start();
+
+		preDirection = direction;
+	}
+
+	// 更新と反映
+	rotateEasing.Update();
+	transform.rotation = rotateEasing.easingRate;
+}
+
 
 void Player::DebugOutput() {
 	Novice::ScreenPrintf(0, 0, "Player Debug Output");
@@ -258,5 +303,5 @@ void Player::DebugOutput() {
 
 	Novice::ScreenPrintf(0, 230, "StageState: %d", GameConfig::GetInstance()->GetStageState());
 	Novice::ScreenPrintf(0, 250, "0 = L,		1 = R,		2 = T,		B = 3");
-	Novice::ScreenPrintf(0, 270, "");
+	Novice::ScreenPrintf(0, 270, "TextureRotate %.2f",transform.rotation);
 }

@@ -37,8 +37,13 @@ void Player::Init() {
 }
 
 //更新処理
-void Player::Update(char* keys, char* preKeys, const Transform2D& stage) {
-	Move(keys, preKeys, stage);
+void Player::Update(char* keys, char* preKeys, const Transform2D& stage,float dt) {
+
+	if (invincibleTime_ > 0) {
+		invincibleTime_--;
+	}
+
+	Move(keys, preKeys, stage, dt);
 	RotateTexture();
 }
 
@@ -60,7 +65,7 @@ void Player::Draw() {
 }
 
 //移動処理
-void Player::Move(char* keys, char* preKeys, const Transform2D& stage) {
+void Player::Move(char* keys, char* preKeys, const Transform2D& stage, float dt) {
 
 	if (GameConfig::GetInstance()->GetIsRotate()) {
 		return;
@@ -75,11 +80,11 @@ void Player::Move(char* keys, char* preKeys, const Transform2D& stage) {
 	}
 
 	//重力を加算
-	velocity.x += gravity.x;
-	velocity.y += gravity.y;
+	velocity.x += gravity.x * dt;
+	velocity.y += gravity.y * dt;
 
-	transform.worldPos.x += velocity.x;
-	transform.worldPos.y += velocity.y;
+	transform.worldPos.x += velocity.x * dt;
+	transform.worldPos.y += velocity.y * dt;
 
 	onGround = false;
 
@@ -282,6 +287,28 @@ void Player::RotateTexture() {
 	// 更新と反映
 	rotateEasing.Update();
 	transform.rotation = rotateEasing.easingRate;
+}
+
+void Player::OnHitEnemy() {
+	// If still invincible, ignore hit
+	if (invincibleTime_ > 0) {
+		return;
+	}
+
+	hp--;
+	invincibleTime_ = invincibleDuration_;
+
+	// Simple knockback opposite to gravity direction
+	// (If gravity is down, knock player upward, etc.)
+	/*Vector2 knockback = { -gravity.x * 10.0f, -gravity.y * 10.0f };
+	velocity.x += knockback.x;
+	velocity.y += knockback.y;*/
+
+	// OPTIONAL: if you really want to adjust position a bit:
+	// transform.worldPos.x += knockback.x;
+	// transform.worldPos.y += knockback.y;
+
+	// DO NOT call Init() here. That would reset direction, gravity, etc.
 }
 
 

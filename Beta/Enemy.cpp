@@ -13,8 +13,8 @@ void Enemy::Init(const Transform2D& spawnStage) {
 	SpawnEnemy(spawnStage);
 }
 
-void Enemy::Update(const Transform2D& spawnStage,float cameraRotate) {
-	Move();
+void Enemy::Update(const Transform2D& spawnStage,float cameraRotate, float dt) {
+	Move(dt);
 	ClampToStage(spawnStage);
 	RotateTexture(cameraRotate);
 }
@@ -75,13 +75,13 @@ void Enemy::SpawnEnemy(const Transform2D& spawnStage) {
 	}
 }
 
-void Enemy::Move() {
+void Enemy::Move(float dt) {
 	for (EnemyData& enemy : enemies) {
 		if (!enemy.isActive) {
 			continue;
 		}
-		enemy.transform.worldPos.x += enemy.velocity.x * enemy.speed.x;
-		enemy.transform.worldPos.y += enemy.velocity.y * enemy.speed.y;
+		enemy.transform.worldPos.x += enemy.velocity.x * enemy.speed.x * dt;
+		enemy.transform.worldPos.y += enemy.velocity.y * enemy.speed.y * dt;
 	}
 }
 
@@ -144,4 +144,49 @@ int Enemy::GetRandomInt(int min, int max) {
 	static std::mt19937 mt(rd());
 	std::uniform_int_distribution<int> dist(min, max - 1);
 	return dist(mt);
+}
+
+void Enemy::DeactivateEnemy(int index) {
+	if (index < 0 || index >= static_cast<int>(enemies.size())) {
+		return;
+	}
+	enemies[index].isActive = false;
+}
+
+void Enemy::ClearEnemies() {
+	enemies.clear();
+}
+
+void Enemy::SpawnWave(const Transform2D& spawnStage, int count) {
+	enemies.clear();  // remove any old enemies
+
+	for (int i = 0; i < count; i++) {
+		EnemyData newEnemy;
+
+		float enemyHW = newEnemy.transform.width / 2.0f;
+		float enemyHH = newEnemy.transform.height / 2.0f;
+		float spawnHW = spawnStage.width / 2.0f;
+		float spawnHH = spawnStage.height / 2.0f;
+		float rangeX = spawnHW - enemyHW;
+		float rangeY = spawnHH - enemyHH;
+		float spawnX = GetRandomFloat(-rangeX, rangeX);
+		float spawnY = GetRandomFloat(-rangeY, rangeY);
+
+		Vector2 finalSpawnPos = { spawnStage.worldPos.x + spawnX, spawnStage.worldPos.y + spawnY };
+		newEnemy.transform.Init(finalSpawnPos, newEnemy.size.x, newEnemy.size.y);
+
+		newEnemy.moveType = GetRandomInt(0, 2); // 0 or 1
+
+		if (newEnemy.moveType == 0) {
+			newEnemy.velocity.x = (GetRandomFloat(0.0f, 1.0f) > 0.5f) ? 1.0f : -1.0f;
+			newEnemy.velocity.y = 0.0f;
+		}
+		else {
+			newEnemy.velocity.x = 0.0f;
+			newEnemy.velocity.y = (GetRandomFloat(0.0f, 1.0f) > 0.5f) ? 1.0f : -1.0f;
+		}
+
+		newEnemy.isActive = true;
+		enemies.push_back(newEnemy);
+	}
 }

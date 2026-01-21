@@ -14,7 +14,7 @@ void GamePlay::Init() {
 	currentCameraRotation_ = 0.0f;
 	player_.Init();
 	enemy_.Init(stage_.GetEnemySpawnRangeTransform());
-	Camera2D::GetInstance()->SetCameraZoom({ 2.0f,2.0f });
+	Camera2D::GetInstance()->SetCameraZoom({ 1.0f,1.0f });
 }
 
 void GamePlay::Update(char* keys, char* preKeys) {

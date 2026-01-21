@@ -14,14 +14,15 @@ void GamePlay::Init() {
 	currentCameraRotation_ = 0.0f;
 	player_.Init();
 	enemy_.Init(stage_.GetEnemySpawnRangeTransform());
+	Camera2D::GetInstance()->SetCameraZoom({ 2.0f,2.0f });
 }
 
 void GamePlay::Update(char* keys, char* preKeys) {
-
 	CameraControl(keys, preKeys);
 	cameraRotateEasing_.Update();
 	Camera2D::GetInstance()->MoveCameraTransform();
 	player_.Update(keys, preKeys, stage_.GetTransform());
+	enemy_.Update(stage_.GetEnemySpawnRangeTransform(),currentCameraRotation_);
 
 }
 
@@ -30,6 +31,7 @@ void GamePlay::Draw() {
 	player_.Draw();
 	enemy_.Draw();
 }
+
 void GamePlay::CameraControl(char* keys, char* preKeys) {
 
 	GameConfig* config = GameConfig::GetInstance();
@@ -66,8 +68,7 @@ void GamePlay::CameraControl(char* keys, char* preKeys) {
 		// 最短経路の計算
 		if (diff > 180.0f) {
 			diff -= 360.0f;
-		}
-		else if (diff < -180.0f) {
+		} else if (diff < -180.0f) {
 			diff += 360.0f;
 		}
 

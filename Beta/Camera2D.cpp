@@ -1,7 +1,9 @@
 #define _USE_MATH_DEFINES
 #include "Camera2D.h"
 #include <cmath>
+
 Camera2D::Camera2D() {
+
 }
 
 //カメラの初期化　描画範囲距離､初期位置､回転､拡大率の設定

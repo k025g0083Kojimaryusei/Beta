@@ -303,7 +303,6 @@ void Player::DebugOutput() {
 	Novice::ScreenPrintf(0, 190, "isHitLeft: %s", (isHitLeft == true ? "True" : "false"));
 	//right
 	Novice::ScreenPrintf(0, 210, "isHitRight: %s", (isHitRight == true ? "True" : "false"));
-
 	Novice::ScreenPrintf(0, 230, "StageState: %d", GameConfig::GetInstance()->GetStageState());
 	Novice::ScreenPrintf(0, 250, "L = 0,		R = 1,		T = 2,		B = 3");
 	Novice::ScreenPrintf(0, 270, "TextureRotate %.2f",transform.rotation);

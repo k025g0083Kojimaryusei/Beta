@@ -6,12 +6,13 @@
 #include"Collider.h"
 #include "Easing.h"
 #include <vector>
+
 class Enemy{
 public:
 	Enemy();
 	Enemy(const Transform2D & spawnStage);
 	void Init(const Transform2D & spawnStage);
-	void Update();
+	void Update(const Transform2D& spawnStage,float cameraRotate);
 	void Draw();
 private:
 
@@ -21,15 +22,19 @@ private:
 		Vector2 size = { 68.0f,68.0f };		//サイズ
 		Collider collider;					//当たり判定
 		Vector2 velocity = {};				//速度
+		int moveType;						//移動軸 x = 0, y = 1
 		int count;							//カウント
-		Vector2 speed;						//移動速度
+		Vector2 speed = {5.0f,5.0f};		//移動速度
 		bool isActive;						//生存フラグ
 	};
 
 	//敵データ配列
 	std::vector<EnemyData> enemies;
-	
 	const int maxEnemiesSpawnCount = 10;	//最大敵数
+	
+	Easing rotateEasing;				//テクスチャ回転イージング
+	float targetRotation = 0.0f;		//目標回転角度
+
 	//敵テクスチャ
 	int count1Texture = Novice::LoadTexture("./Textures/Characters/Enemy/enemy1.png");
 	int count2Texture = Novice::LoadTexture("./Textures/Characters/Enemy/enemy2.png");
@@ -40,6 +45,18 @@ private:
 
 	//敵スポーン処理
 	void SpawnEnemy(const Transform2D & spawnStage);
-	float GetRandom(float min, float max);
+	
+	//敵移動処理
+	void Move();
+	
+	//ステージ内にクランプする処理
+	void ClampToStage(const Transform2D & spawnStage);
+
+	//テクスチャ回転処理
+	void RotateTexture(float cameraRotate);
+
+	float GetRandomFloat(float min, float max);
+	int GetRandomInt(int min, int max);
+
 };
 

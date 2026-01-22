@@ -8,15 +8,13 @@ enum class SceneType
 	Ranking
 };
 
-class Sence
+class Scene
 {
 public:
-	virtual ~Sence() {}
-	virtual void Update() = 0;
+	virtual ~Scene() {}
+	virtual void Update(char* keys, char* preKeys) = 0;
 	virtual void Draw() = 0;
 };
-
-class SceneManager;
 
 class SceneManager
 {
@@ -25,13 +23,13 @@ public:
 	~SceneManager();
 
 	void ChangeScene(SceneType newType);
-	void UpdateCurrentScene();
+	void UpdateCurrentScene(char* keys, char* preKeys);
 	void DrawCurrentScene();
 
 	SceneType GetCurrentSceneType() const { return currentType; }
 
 private:
-	Sence* currentScene;
+	Scene* currentScene;
 	SceneType currentType;
 };
 

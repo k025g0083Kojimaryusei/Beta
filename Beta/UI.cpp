@@ -10,7 +10,7 @@ void UI::Init() {
 }
 
 void UI::Draw() {
-	ImGui::DragFloat2("position", &position_.x, 0.1f);
+	//ImGui::DragFloat2("position", &position_.x, 0.1f);
 	scoreBoardTransform_.Init(position_, scoreBoardW, scoreBoardH);
 
 	Quad screenSB = CameraManager::GetInstance()->GetUICamera().WorldToScreen(scoreBoardTransform_);

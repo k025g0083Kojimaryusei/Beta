@@ -1,11 +1,11 @@
 #pragma once
-#include "Sence.h"
+#include "Scene.h"
 
-class CreditScene : public Sence
+class CreditScene : public Scene
 {
 public:
 	CreditScene(SceneManager* manager);
-	void Update() override;
+	void Update(char* keys, char* preKeys) override;
 	void Draw() override;
 
 private:

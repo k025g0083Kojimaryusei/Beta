@@ -1,5 +1,5 @@
 #include <Novice.h>
-#include "GamePlay.h"
+#include "Scene.h" 
 
 const char kWindowTitle[] = "コジマ";
 
@@ -12,7 +12,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-		GamePlay gamePlay;
+	SceneManager sceneManager;
+
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
@@ -28,12 +29,14 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		///
 		/// ↑更新処理ここまで
 		///
-		gamePlay.Update(keys,preKeys);
-		gamePlay.Draw();
+		
+		sceneManager.UpdateCurrentScene(keys, preKeys);
 
 		///
 		/// ↓描画処理ここから
 		///
+
+		sceneManager.DrawCurrentScene();
 
 		///
 		/// ↑描画処理ここまで

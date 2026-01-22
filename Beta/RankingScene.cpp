@@ -1,16 +1,20 @@
 #include "RankingScene.h"
+#include <Novice.h>
 
 RankingScene::RankingScene(SceneManager* manager)
 	: sceneManager(manager)
 {
 }
 
-void RankingScene::Update()
+void RankingScene::Update(char* keys, char* preKeys)
 {
-	// Ranking scene update logic here
+	if (!preKeys[DIK_B] && keys[DIK_B])
+	{
+		sceneManager->ChangeScene(SceneType::Title);
+	}
 }
 
 void RankingScene::Draw()
 {
-	// Ranking scene draw logic here
+	Novice::ScreenPrintf(100, 100, "Ranking Scene");
 }

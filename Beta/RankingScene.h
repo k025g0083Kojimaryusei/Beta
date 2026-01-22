@@ -1,11 +1,11 @@
 #pragma once
-#include "Sence.h"
+#include "Scene.h"
 
-class RankingScene : public Sence
+class RankingScene : public Scene
 {
 public:
 	RankingScene(SceneManager* manager);
-	void Update() override;
+	void Update(char* keys, char* preKeys) override;
 	void Draw() override;
 
 private:

@@ -1,16 +1,21 @@
 #include "PlayScene.h"
 
 PlayScene::PlayScene(SceneManager* manager)
-	: sceneManager(manager)
+	: sceneManager(manager), gamePlay_()
 {
 }
 
-void PlayScene::Update()
+void PlayScene::Update(char* keys, char* preKeys)
 {
-	// Play scene update logic here
+	gamePlay_.Update(keys, preKeys);
+
+	if (!preKeys[DIK_B] && keys[DIK_B])
+	{
+		sceneManager->ChangeScene(SceneType::Ranking);
+	}
 }
 
 void PlayScene::Draw()
 {
-	// Play scene draw logic here
+	gamePlay_.Draw();
 }	

@@ -1,4 +1,4 @@
-#include "Sence.h"
+#include "Scene.h"
 #include "TitleScene.h"
 #include "PlayScene.h"
 #include "CreditScene.h"
@@ -20,34 +20,32 @@ SceneManager::~SceneManager()
 
 void SceneManager::ChangeScene(SceneType newType)
 {
-	if (currentScene)
-	{
-		delete currentScene;
-		currentScene = nullptr;
-		currentType = newType;
-	}
+	delete currentScene;
+	currentScene = nullptr;
+	currentType = newType;
+	
 	switch (newType)
 	{
 	case SceneType::Title:
-		currentScene = new TitleScene();
+		currentScene = new TitleScene(this);
 		break;
 	case SceneType::Play:
-		currentScene = new PlayScene();
+		currentScene = new PlayScene(this);
 		break;
 	case SceneType::Credit:
-		currentScene = new CreditScene();
+		currentScene = new CreditScene(this);
 		break;
 	case SceneType::Ranking:
-		currentScene = new RankingScene();
+		currentScene = new RankingScene(this);
 		break;
 	}
 }
 
-void SceneManager::UpdateCurrentScene()
+void SceneManager::UpdateCurrentScene(char* keys, char* preKeys)
 {
 	if (currentScene)
 	{
-		currentScene->Update();
+		currentScene->Update(keys, preKeys);
 	}
 }
 

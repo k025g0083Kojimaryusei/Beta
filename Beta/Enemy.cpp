@@ -26,7 +26,7 @@ void Enemy::Draw() {
 		}
 		
 		
-		Quad screen = Camera2D::GetInstance()->WorldToScreen(enemy.transform);
+		Quad screen = CameraManager::GetInstance()->GetMainCamera().WorldToScreen(enemy.transform);
 		Novice::DrawQuad(
 			static_cast<int>(screen.v[0].x), static_cast<int>(screen.v[0].y),
 			static_cast<int>(screen.v[1].x), static_cast<int>(screen.v[1].y),
@@ -35,7 +35,7 @@ void Enemy::Draw() {
 			0, 0,
 			static_cast<int>(enemy.transform.width),
 			static_cast<int>(enemy.transform.height),
-			count1Texture, WHITE
+			count3Texture, WHITE
 		);
 	}
 }

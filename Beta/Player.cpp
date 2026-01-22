@@ -46,7 +46,7 @@ void Player::Update(char* keys, char* preKeys, const Transform2D& stage) {
 void Player::Draw() {
 
 	DebugOutput();
-	Quad screen = Camera2D::GetInstance()->WorldToScreen(transform);
+	Quad screen = CameraManager::GetInstance()->GetMainCamera().WorldToScreen(transform);
 	Novice::DrawQuad(
 		static_cast<int>(screen.v[0].x), static_cast<int>(screen.v[0].y),
 		static_cast<int>(screen.v[1].x), static_cast<int>(screen.v[1].y),
@@ -55,7 +55,7 @@ void Player::Draw() {
 		0, 0,
 		static_cast<int>(transform.width),
 		static_cast<int>(transform.height),
-		playerTextureHandle, RED
+		playerTextureHandle, WHITE
 	);
 }
 

@@ -8,7 +8,10 @@ Camera2D::Camera2D() {
 
 //カメラの初期化　描画範囲距離､初期位置､回転､拡大率の設定
 void Camera2D::InitCameraTransform(cameraInfo& info,float w,float h) {
-	info.centerpos = { w / 2.0f, h / 2.0f };
+	
+	if (info.centerpos.x == 0 && info.centerpos.y == 0) {
+		info.centerpos = { w / 2.0f, h / 2.0f };
+	}	
 	info.rotation = 0.0f;
 	info.scale = { 1.0f, 1.0f };
 	info.left = -w / 2.0f;
@@ -22,7 +25,10 @@ void Camera2D::InitCameraTransform(cameraInfo& info,float w,float h) {
 
 //カメラの数値を更新
 void Camera2D::MoveCameraTransform() {
-	Matrix3x3 cameraMatrix = WorldMatrix(info_.centerpos, info_.rotation,info_.scale);
+
+	Vector2 invScale = { 1.0f / info_.scale.x,1.0f / info_.scale.y };
+
+	Matrix3x3 cameraMatrix = WorldMatrix(info_.centerpos, info_.rotation,invScale);
 	Matrix3x3 viewMatrix = InverseMatrix(cameraMatrix);
 	Matrix3x3 orthoMatrix = OrthoMatrix(info_.left, info_.right, info_.top, info_.bottom);
 	Matrix3x3 viewportMatrix = ViewPortMatrix(0.0f, 0.0f, info_.width, info_.height);
@@ -90,11 +96,6 @@ const Camera2D::cameraInfo& Camera2D::GetCameraInfo() const {
 	return info_;
 }
 
-// シングルトン取得
-Camera2D* Camera2D::GetInstance() {
-	static Camera2D instance;
-	return &instance;
-}
 
 Matrix3x3 Camera2D:: MultiplyMatrix(const Matrix3x3& m1, const Matrix3x3& m2) {
 	Matrix3x3 result;

@@ -38,17 +38,26 @@
     <Filter Include="GamePlay\Enemy">
       <UniqueIdentifier>{663c3211-098b-42f2-974e-ba13218d0679}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tool\Camera">
+      <UniqueIdentifier>{44f16867-c9d4-4899-b807-35c7e1ecc63e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Object2D">
+      <UniqueIdentifier>{d80b782d-0faf-40b6-9c10-8abb42d27a7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Easing">
+      <UniqueIdentifier>{ae9dc414-b6d2-413a-b575-1805c2dedff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GamePlay\UI">
+      <UniqueIdentifier>{86a57903-5fe0-4455-87c6-053fe617d2a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GamePlay\background">
+      <UniqueIdentifier>{a2a7a003-31a1-4647-b964-6d43e39a17a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
       <Filter>KamataEngine\Adapter</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera2D.cpp">
-      <Filter>Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="Easing.cpp">
-      <Filter>Tool</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>GamePlay\Strage</Filter>
@@ -64,6 +73,18 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>GamePlay\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera2D.cpp">
+      <Filter>Tool\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Easing.cpp">
+      <Filter>Tool\Easing</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>GamePlay\background</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,15 +169,6 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="Camera2D.h">
-      <Filter>Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="Easing.h">
-      <Filter>Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="Object2D.h">
-      <Filter>Tool</Filter>
-    </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>GamePlay\Strage</Filter>
     </ClInclude>
@@ -174,6 +186,24 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>GamePlay\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera2D.h">
+      <Filter>Tool\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Object2D.h">
+      <Filter>Tool\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Easing.h">
+      <Filter>Tool\Easing</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>Tool\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>GamePlay\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>GamePlay\background</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

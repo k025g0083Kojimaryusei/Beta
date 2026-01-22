@@ -1,7 +1,7 @@
 #pragma once
 #include <Novice.h>
 #include "Object2D.h"
-#include "Camera2D.h"
+#include "CameraManager.h"
 #include "GameConfig.h"
 #include"Collider.h"
 #include "Easing.h"
@@ -30,7 +30,7 @@ private:
 
 	//敵データ配列
 	std::vector<EnemyData> enemies;
-	const int maxEnemiesSpawnCount = 10;	//最大敵数
+	const int maxEnemiesSpawnCount = 25;	//最大敵数
 	
 	Easing rotateEasing;				//テクスチャ回転イージング
 	float targetRotation = 0.0f;		//目標回転角度

@@ -1,13 +1,18 @@
 #pragma once
 #include "Object2D.h"
-	struct Matrix3x3 {
-		float m[3][3];
-	};
+
+struct Matrix3x3 {
+	float m[3][3];
+};
+
 class Camera2D {
 public:
+
+	Camera2D();
+
 	struct cameraInfo {
-		Vector2 centerpos;
-		float rotation; 
+		Vector2 centerpos = {};
+		float rotation;
 		Vector2 scale;
 		float left;
 		float right;
@@ -19,13 +24,13 @@ public:
 	};
 
 	//カメラの初期化　描画範囲距離､初期位置､回転､拡大率の設定
-	void InitCameraTransform(cameraInfo& cameraInfo,float w,float h);
-	
+	void InitCameraTransform(cameraInfo& cameraInfo, float w, float h);
+
 	//カメラの数値を更新
 	void MoveCameraTransform();
 
 	//ワールド座標をスクリーン座標に変換
-	Quad WorldToScreen(const Transform2D &object);
+	Quad WorldToScreen(const Transform2D& object);
 
 	//ワールド座標をスクリーン座標に変換
 	Vector2 WorldToScreen(const Vector2& worldPos);
@@ -49,8 +54,6 @@ public:
 	// カメラ情報を取得
 	const cameraInfo& GetCameraInfo() const;
 
-	// シングルトン取得
-	static Camera2D * GetInstance();
 private:
 	cameraInfo info_;
 	Matrix3x3 vpVpMatrix_;
@@ -61,5 +64,4 @@ private:
 	Matrix3x3 ViewPortMatrix(float x, float y, float width, float height);
 	Vector2 Transform(const Vector2& v, const Matrix3x3& m);
 	Matrix3x3 MakeWVP(const Matrix3x3& world, const Matrix3x3& view, const Matrix3x3& ortho, const Matrix3x3& viewport);
-	Camera2D();
 };

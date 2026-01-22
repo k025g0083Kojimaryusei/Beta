@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Object2D.h"
-#include "Camera2D.h"
+#include "CameraManager.h"
 #include "GameConfig.h"
 #include"Collider.h"
 #include <Novice.h>
@@ -32,7 +32,7 @@ private:
 	float gravityStrength = 0.5f;								//重力の強さ
 	Vector2 gravity = {0.0f,gravityStrength};					//重力
 	int directionChangeLeft = 2;								//方向変更残り回数
-	const int maxDirectionChange = 9;							//方向変更最大回数
+	const int maxDirectionChange = 2;							//方向変更最大回数
 	int hp;														//体力
 	float walkSpeed = 5.0f;										//歩く速さ
 	bool canChangeGravity;										//方向を変えることができるか

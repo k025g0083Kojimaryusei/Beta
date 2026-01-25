@@ -85,7 +85,7 @@ void SceneManager::UpdateTransition()
         if (--pauseTimer_ <= 0) {
             // Prepare open
             phase_ = 3;
-            horizonEasing_.Init(0.0f, 1.0f, transitionTotalFrame_, EasingType::EASING_EASE_IN_OUT_QUAD);
+            horizonEasing_.Init(0.0f, 1.0f, transitionTotalFrame_, EasingType::EASING_EASE_IN_BOUNCE);
             horizonEasing_.Start();
             vertEasing_.easingRate = 0.0f;
         }
@@ -95,7 +95,7 @@ void SceneManager::UpdateTransition()
         vertEasing_.easingRate = 0.0f;
         if (!horizonEasing_.isMove) {
             phase_ = 4;
-            vertEasing_.Init(0.0f, 1.0f, transitionTotalFrame_, EasingType::EASING_EASE_IN_OUT_QUAD);
+            vertEasing_.Init(0.0f, 1.0f, transitionTotalFrame_, EasingType::EASING_EASE_IN_BOUNCE);
             vertEasing_.Start();
         }
         break;
@@ -132,6 +132,52 @@ void SceneManager::DrawCurrentScene()
         DrawTransitionOverlay();
     }
 }
+
+//
+//void SceneManager::DrawCurrentScene()
+//{
+//    Novice::ScreenPrintf(0, 0, "inTransition=%d", inTransition_ ? 1 : 0);
+//
+//    const int screenW = 1280;
+//    const int screenH = 720;
+//
+//    if (!inTransition_) {
+//        // Not in transition: Draw normal scene
+//        if (currentScene_) {
+//            currentScene_->Draw();
+//        }
+//    }
+//    else {
+//        // In transition, show:
+//        // - Old scene: closing phases (0 and 1)
+//        // - Nothing but black: phase 2
+//        // - New scene: opening phases (3 and 4)
+//       // bool drawScene = false;
+//
+//        // Decide which scene to draw
+//        if (phase_ == 0 || phase_ == 1) {
+//            // Draw the *old scene* (content before switch)
+//            if (currentScene_) {
+//                currentScene_->Draw();
+//            }
+//        }
+//        else if (phase_ == 3 || phase_ == 4) {
+//            // Draw the *new scene* (content after switch)
+//            if (currentScene_) {
+//                currentScene_->Draw();
+//            }
+//        }
+//        // In phase 2 (black pause), draw black
+//        else if (phase_ == 2) {
+//            Novice::DrawBox(0, 0, screenW, screenH, 0.0f, BLACK, kFillModeSolid);
+//        }
+//    }
+//
+//    // TV overlay always on top
+//    if (inTransition_) {
+//        DrawTransitionOverlay();
+//    }
+//}
 
 void SceneManager::UpdateCurrentScene(char* keys, char* preKeys)
 {

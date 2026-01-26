@@ -1,5 +1,5 @@
 #include "Scene.h"
-#include "TitleScene.h"
+#include "TitleScene2.h"
 #include "PlayScene.h"
 #include "CreditScene.h"
 #include "RankingScene.h"
@@ -7,7 +7,7 @@
 SceneManager::SceneManager()
 {
 	currentType_ = SceneType::Title;
-	currentScene_ = new TitleScene(this);
+	currentScene_ = new TitleScene2(this);
     radialGlowTex_ = Novice::LoadTexture("./Textures/UI/glow.png"); 
 }
 
@@ -70,7 +70,7 @@ void SceneManager::UpdateTransition()
             currentType_ = nextType_;
 
             switch (nextType_) {
-            case SceneType::Title:   currentScene_ = new TitleScene(this);   break;
+            case SceneType::Title:   currentScene_ = new TitleScene2(this);   break;
             case SceneType::Play:    currentScene_ = new PlayScene(this);    break;
             case SceneType::Credit:  currentScene_ = new CreditScene(this);  break;
             case SceneType::Ranking: currentScene_ = new RankingScene(this); break;

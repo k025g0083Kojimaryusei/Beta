@@ -12,14 +12,14 @@ void TitleScene::Update(char* keys, char* preKeys)
 	bg_.Update();
 	logo_.Update();
 
-	if (!preKeys[DIK_DOWN] && keys[DIK_DOWN]) {
+	if (!preKeys[DIK_DOWN] && keys[DIK_DOWN] || !preKeys[DIK_S] && keys[DIK_S]) {
 		selectedIndex++;
 		if (selectedIndex > 2) {
 			selectedIndex = 0;
 		}
 	}
 
-	if (!preKeys[DIK_UP] && keys[DIK_UP])
+	if (!preKeys[DIK_UP] && keys[DIK_UP] || !preKeys[DIK_W] && keys[DIK_W])
 	{
 		selectedIndex--;
 		if (selectedIndex < 0) {
@@ -27,7 +27,7 @@ void TitleScene::Update(char* keys, char* preKeys)
 		}
 	}
 
-	if (!preKeys[DIK_SPACE] && keys[DIK_SPACE])
+	if (!preKeys[DIK_RETURN] && keys[DIK_RETURN])
 	{
 		switch (selectedIndex) {
 		case 0: // Play

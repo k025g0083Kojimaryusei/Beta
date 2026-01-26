@@ -41,7 +41,7 @@ private:
 	int transitionTotalFrame_ = 10;
 
 	int pauseTimer_ = 0;
-	int pauseDuration_ = 60;
+	int pauseDuration_ = 20;
 
 	int radialGlowTex_ = 0; 
 

@@ -64,14 +64,14 @@ void TitleScene2::Update(char* keys, char* preKeys)
         logoSlideEasing_.Update();
         logoCurrentX_ = logoSlideEasing_.easingRate;
         logo_.SetPosition(logoCurrentX_, logo_.GetCenterY());
-        logo_.UpdateShakeOnly();
+        logo_.Update(); // <--- now shakes with effect
         if (!logoSlideEasing_.isMove) {
             state_ = TitleState::MenuActive;
         }
         break;
     case TitleState::MenuActive:
         logo_.SetPosition(logoTargetX_, logo_.GetCenterY());
-        logo_.UpdateShakeOnly();
+        logo_.Update();
 
         noiseTimer_++;
 

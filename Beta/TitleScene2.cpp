@@ -1,5 +1,6 @@
 // TitleScene2.cpp
 #include "TitleScene2.h"
+#include <cmath>
 
 TitleScene2::TitleScene2(SceneManager* manager)
     : sceneManager(manager), bg_(), logo_()
@@ -49,43 +50,44 @@ void TitleScene2::Update(char* keys, char* preKeys)
     case TitleState::Shake:
         logo_.Update();
         logoCurrentX_ = logo_.GetCenterX();
-        // Check for Enter to slide logo left
         if (!preKeys[DIK_RETURN] && keys[DIK_RETURN]) {
-            logoStartX_ = logo_.GetCenterX();
-            logoSlideT_ = 0.0f;
+            // Start logo slide animation to target
+            logoSlideEasing_.Init(logoCurrentX_, logoTargetX_, 30, EasingType::EASING_EASE_OUT_QUAD); // 30 frames for slide
+            logoSlideEasing_.Start();
             state_ = TitleState::SlideLeft;
         }
         break;
-    case TitleState::SlideLeft: {
-        logoSlideT_ += logoSlideSpeed_;
-        if (logoSlideT_ > 1.0f) logoSlideT_ = 1.0f;
-        float t = logoSlideT_;
-        float easeT = 1.0f - (1.0f - t) * (1.0f - t); // ease out
-        logoCurrentX_ = logoStartX_ + (logoTargetX_ - logoStartX_) * easeT;
+    case TitleState::SlideLeft:
+        logoSlideEasing_.Update();
+        logoCurrentX_ = logoSlideEasing_.easingRate;
         logo_.SetPosition(logoCurrentX_, logo_.GetCenterY());
         logo_.UpdateShakeOnly();
-        if (logoSlideT_ >= 1.0f) state_ = TitleState::MenuActive;
+        if (!logoSlideEasing_.isMove) {
+            state_ = TitleState::MenuActive;
+        }
         break;
-    }
     case TitleState::MenuActive:
         logo_.SetPosition(logoTargetX_, logo_.GetCenterY());
         logo_.UpdateShakeOnly();
 
         noiseTimer_++;
 
-        // Menu navigation
-        if (keys[DIK_UP] && !preKeys[DIK_UP])    selectedIndex_ = (selectedIndex_ + 2) % 3;
-        if (keys[DIK_DOWN] && !preKeys[DIK_DOWN])selectedIndex_ = (selectedIndex_ + 1) % 3;
-        // Cursor Y easing
+        // Up/down input
+        if (keys[DIK_UP] && !preKeys[DIK_UP]) {
+            selectedIndex_ = (selectedIndex_ + 2) % 3;
+            noiseTimer_ = 0;
+        }
+        if (keys[DIK_DOWN] && !preKeys[DIK_DOWN]) {
+            selectedIndex_ = (selectedIndex_ + 1) % 3;
+            noiseTimer_ = 0;
+        }
         float targetY = float(menuBaseY_ + menuSpacingY_ * selectedIndex_);
         cursorCurrentY_ += (targetY - cursorCurrentY_) * kCursorEasingSpeed;
 
         if (noiseTimer_ >= 60) noiseTimer_ = 0;
 
-        // Scene select (optional)
-        if (keys[DIK_RETURN] && !preKeys[DIK_RETURN]) {
-            nextSceneIndex_ = selectedIndex_;
-        }
+        // Scene select (optional for now)
+        // if (keys[DIK_RETURN] && !preKeys[DIK_RETURN]) {}
 
         break;
     }
@@ -93,49 +95,45 @@ void TitleScene2::Update(char* keys, char* preKeys)
 
 void TitleScene2::Draw()
 {
-    // Optionally: bg_.Draw();
+    // bg_.Draw();   // Optional background
+
     Novice::DrawSprite(
         0, 0,
         bgTexture_,
-        1.0f, 1.0f, 0.0f, WHITE
-	);
+        1.0f, 1.0f,
+        0.0f,
+        WHITE
+    );
 
-    // Logo at current X
     logo_.DrawAt(logoCurrentX_, logo_.GetCenterY());
 
-    // Always draw Enter key in bottom right (hover effect)
     Novice::DrawSprite(
         enterX_,
         enterY_ + static_cast<int>(hoverOffset_),
-        enterTexture_,
-        1.0f, 1.0f, 0.0f, WHITE
+        enterTexture_, 1.0f, 1.0f, 0.0f, WHITE
     );
 
-    // -- Menu (after logo slides left and stays)
     if (state_ == TitleState::MenuActive) {
+        // Draw bar under the selected item (uses fixed position array)
+        Novice::DrawSprite(
+            barX_[selectedIndex_], barY_[selectedIndex_],
+            barTex_[selectedIndex_], 1.0f, 1.0f, 0.0f, WHITE
+        );
+
+        // Draw cursor for the selected item (optional: mimics friend's code)
+        Novice::DrawSprite(
+            cursorX_,
+            static_cast<int>(cursorCurrentY_) + cursorYOffset_,
+            cursorTex_, 1.0f, 1.0f, 0.0f, WHITE
+        );
+
+        // Draw menu text with possible glitch frames
         for (int i = 0; i < 3; ++i) {
-            int btnY = menuBaseY_ + menuSpacingY_ * i;
             int frame = 0;
             if (i == selectedIndex_ && noiseTimer_ < 15) {
                 frame = (noiseTimer_ / 5) % 3;
             }
-            // Menu word
-            Novice::DrawSprite(menuBaseX_, btnY, btnTex_[i][frame], 1.0f, 1.0f, 0.0f, WHITE);
-
-            // Bar under selected
-            if (i == selectedIndex_) {
-                // Draw bar directly below each menu word
-                Novice::DrawSprite(
-                    menuBaseX_, btnY + barGapY_,
-                    barTex_[i], 1.0f, 1.0f, 0.0f, WHITE
-                );
-                // Draw cursor to left of menu word
-                Novice::DrawSprite(
-                    menuBaseX_ + cursorGapX_,
-                    btnY,
-                    cursorTex_, 1.0f, 1.0f, 0.0f, WHITE
-                );
-            }
+            Novice::DrawSprite(menuTextX_[i], menuTextY_[i], btnTex_[i][frame], 1.0f, 1.0f, 0.0f, WHITE);
         }
     }
 }

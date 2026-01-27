@@ -10,8 +10,7 @@ SceneManager::SceneManager()
 	currentType_ = SceneType::Title;
 	currentScene_ = new TitleScene2(this);
     radialGlowTex_ = Novice::LoadTexture("./Textures/UI/glow.png"); 
-    bgTexture_ = Novice::LoadTexture("./Textures/UI/BackGround/images.jpg");
-    bgTexture2_ = Novice::LoadTexture("./Textures/UI/BackGround/logo.png");
+    bgTexture_ = Novice::LoadTexture("./Textures/UI/BackGround/logo.png");
 }
 
 SceneManager::~SceneManager()
@@ -319,31 +318,6 @@ void SceneManager::DrawTransitionOverlay()
     else if (phase_ == 2) {
         // --- PAUSE: Full black ---
         Novice::DrawBox(0, 0, screenW, screenH, 0.0f, color, kFillModeSolid);
-        // Optionally you could draw a small dot or nothing
-
-        //Novice::DrawSprite(
-        //    centerX - (112 * 6),
-        //    centerY - (112 * 4),
-        //    bgTexture_,
-        //    6.0f, 4.0f,
-        //    0.0f,
-        //    WHITE
-        //);
-
-        //Novice::DrawSprite(
-        //    centerX - 193,
-        //    centerY - 65,
-        //    bgTexture_,
-        //    1.0f, 1.0f,
-        //    0.0f,
-        //    WHITE
-        //);
-
-        //Novice::DrawBox(
-        //    screenW - 150,
-        //    screenH - 130,
-        //    100, 100, 0.0f, WHITE, kFillModeSolid
-        //);
 
         // Hover animation for logo (tiny logo at bottom right)
         static int frameCountForOverlay = 0;
@@ -353,7 +327,7 @@ void SceneManager::DrawTransitionOverlay()
         Novice::DrawSprite(
             screenW - 150,
             screenH - 140 + static_cast<int>(hoverOffset),
-            bgTexture2_,
+            bgTexture_,
             1.0f, 1.0f,
             0.0f,
             WHITE

@@ -53,7 +53,7 @@ private:
 	void DrawTransitionOverlay();
 
 	int bgTexture_ = 0;
-	int bgTexture2_ = 0;
+	
 };
 
 

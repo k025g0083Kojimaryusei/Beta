@@ -84,7 +84,7 @@ void Enemy::SpawnEnemy(const Transform2D& spawnStage) {
 
 		newEnemy.isActive = true;
 
-		newEnemy.count = GetRandomInt(0, 6);
+		newEnemy.count = GetRandomInt(1, 5);
 
 		newEnemy.speed = {
 			GetRandomFloat(0.5f,7.0f),
@@ -202,6 +202,6 @@ float Enemy::GetRandomFloat(float min, float max) {
 int Enemy::GetRandomInt(int min, int max) {
 	static std::random_device rd;
 	static std::mt19937 mt(rd());
-	std::uniform_int_distribution<int> dist(min, max - 1);
+	std::uniform_int_distribution<int> dist(min, max);
 	return dist(mt);
 }

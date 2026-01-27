@@ -56,6 +56,9 @@
     <Filter Include="GamePlay\Score">
       <UniqueIdentifier>{1bdfa022-3a81-4fd6-bea2-b92db806f998}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GamePlay\Combo">
+      <UniqueIdentifier>{5c93bf24-e726-43ff-af16-eeab91c71085}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -88,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="Background.cpp">
       <Filter>GamePlay\background</Filter>
+    </ClCompile>
+    <ClCompile Include="ComboManager.cpp">
+      <Filter>GamePlay\Combo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>GamePlay\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="ComboManager.h">
+      <Filter>GamePlay\Combo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

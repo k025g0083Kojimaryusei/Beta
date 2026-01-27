@@ -13,6 +13,7 @@
 #include <vector>
 
 
+
 class GamePlay {
 public:
 
@@ -21,7 +22,6 @@ public:
 	void Update(char* keys, char* preKeys);				//更新	
 	void Draw();										//描画
 private:
-	Score score_;										//スコア
 	Stage stage_;										//ステージ
 	Player player_;										//プレイヤー
 	Enemy enemy_;										//敵

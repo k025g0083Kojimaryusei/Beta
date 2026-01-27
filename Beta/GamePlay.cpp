@@ -1,7 +1,7 @@
 ﻿#define _USE_MATH_DEFINES
 #include <cmath>
 #include "GamePlay.h"
-
+#include <imgui.h>
 
 GamePlay::GamePlay() {
 	Init();
@@ -75,6 +75,11 @@ void GamePlay::Update(char* keys, char* preKeys) {
 	//次のステージへ進むかの判定
 	NextStageCheck();
 
+	//UI更新
+	ui_.Update();
+	//スコア更新
+	Score::GetInstance()->Update();
+
 }
 
 //描画処理
@@ -88,10 +93,15 @@ void GamePlay::Draw() {
 }
 
 void GamePlay::DebugText() {
-	Novice::ScreenPrintf(0, 0, "CurrentStage = %d",GameConfig::GetInstance()->GetCurrentStage());
-	Novice::ScreenPrintf(0, 100, "CurrentWave = %d", GameConfig::GetInstance()->GetCurrentWave());
+	ImGui::Begin("GamePlay::DebugText ");
+	
+	ImGui::Text("stage = %d", GameConfig::GetInstance()->GetCurrentStage());
+	ImGui::Text("Wave = % d", GameConfig::GetInstance()->GetCurrentWave());
+	ImGui::Text("Score = %d", Score::GetInstance()->GetDisplayScore());
+	ImGui::Text("Combo = % d",combo);
+	ImGui::End();
+	
 
-	Novice::ScreenPrintf(0, 200, "Score = %d", GameConfig::GetInstance()->GetScore());
 }
 
 
@@ -155,7 +165,6 @@ void GamePlay::CameraControl() {
 bool GamePlay::PlayerIsHitEnemy() {
 	const Transform2D& playerTransform = player_.GetTransform();
 	std::vector<Enemy::EnemyData>& enemies = enemy_.GetEnemies();
-	GameConfig* config = GameConfig::GetInstance();
 
 	for (auto& enemy : enemies) {
 		if (!enemy.isActive) {
@@ -164,11 +173,9 @@ bool GamePlay::PlayerIsHitEnemy() {
 		if (collider_.AABB(playerTransform, enemy.transform)) {
 
 			combo++;
-
-			float maxEnemies = static_cast<float>(enemy_.GetMaxEnemyCount());
-			int addScore = static_cast<int>(static_cast<float>(enemy.count) * static_cast<float>(combo) / maxEnemies);
-
-			config->AddScore(addScore);
+			int maxEnemies = enemy_.GetMaxEnemyCount();
+		
+			Score::GetInstance()->AddScore(maxEnemies,combo);
 
 			enemy.isActive = false; // 生存フラグをfalse
 			player_.SetIsHitEnemy(true); // プレイヤーに当たりフラグを設定
@@ -201,6 +208,8 @@ void GamePlay::WaveCountCheck() {
 		
 		int nextWave = config->GetCurrentWave() + 1;
 		config->SetCurrentWave(nextWave);
+
+		combo = 0;
 	}
 
 	prePlayerOnGround = currentOnGround;

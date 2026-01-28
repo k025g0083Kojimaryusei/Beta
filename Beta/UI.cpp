@@ -17,7 +17,7 @@ void UI::Update(const Vector2& playerWorldPos) {
 
 	if (currentCombo > lastComboDrawn_) {
 		// Combo increased! Start pop+shake effect
-		comboScaleEasing_.Init(3.0f, 1.0f, 14, EasingType::EASING_EASE_OUT_BACK); // Tweak strength as desired
+		comboScaleEasing_.Init(5.0f, 1.0f, 25, EasingType::EASING_EASE_OUT_BACK); // Tweak strength as desired
 		comboScaleEasing_.Start();
 
 		comboShakeTime_ = 0.0f;

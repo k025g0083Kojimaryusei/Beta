@@ -10,6 +10,7 @@
 #include "UI.h"
 #include "Background.h"
 #include "Score.h"
+#include "ComboManager.h"
 #include <vector>
 
 

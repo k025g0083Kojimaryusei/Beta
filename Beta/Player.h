@@ -28,7 +28,7 @@ private:
 	};
 
 	Collider collider;											//当たり判定
-	Vector2 size = { 52.0f,60.0f };								//サイズ
+	Vector2 size = { 60.0f,60.0f };								//サイズ
 	Transform2D transform;										//データ
 	Vector2 velocity = {};										//速度
 	Direction direction;										//向いている方向

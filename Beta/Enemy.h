@@ -112,7 +112,7 @@ private:
 	int GetRandomInt(int min, int max);
 
 	//ステージごとの敵出現数
-	int stageEnemyCount[5] = { 5,10,15,20,35 };
+	int stageEnemyCount[5] = { 7,12,17,20,30 };
 
 	bool canCountdown = false;
 	int prevWaveCount = GameConfig::GetInstance()->GetCurrentWave();

@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include "ComboManager.h"
 class Score {
 public:
     static Score* GetInstance() {
@@ -7,7 +7,8 @@ public:
         return &instance;
     }
 
-    void AddScore(int maxEnemies, int combo) {
+    void AddScore(int maxEnemies) {
+		int combo = ComboManager::GetInstance()->GetComboCount();
         targetScore_ += (100 * combo * combo) / maxEnemies;
     }
 

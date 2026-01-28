@@ -8,11 +8,13 @@ public:
 
 	void Update();
 	void Draw();
+	void DrawLogo();
 
 private:
 
 	static const int kFrameCount = 5;
 	int textureHandles_[kFrameCount]{};
+	int logoTexture_ = 0;
 
 	int currentFrame_ = 0;
 	int frameCounter_ = 0;

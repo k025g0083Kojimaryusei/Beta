@@ -97,6 +97,7 @@ void GamePlay::Update(char* keys, char* preKeys) {
 //描画処理
 void GamePlay::Draw() {
 	bg_.Draw();
+	bg_.DrawLogo();
 	stage_.Draw();
 	player_.Draw();
 	enemy_.Draw();

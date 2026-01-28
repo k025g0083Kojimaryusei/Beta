@@ -23,10 +23,10 @@ void UI::Draw(const Transform2D& playerPos,float cameraRotate) {
 
 	Quad screenSB = CameraManager::GetInstance()->GetUICamera().WorldToScreen(scoreBoardTransform_);
 	Novice::DrawQuad(
-		static_cast<int>(screenSB.v[0].x), static_cast<int>(screenSB.v[0].y),
-		static_cast<int>(screenSB.v[1].x), static_cast<int>(screenSB.v[1].y),
-		static_cast<int>(screenSB.v[2].x), static_cast<int>(screenSB.v[2].y),
-		static_cast<int>(screenSB.v[3].x), static_cast<int>(screenSB.v[3].y),
+		static_cast<int>(screenSB.v[0].x+43 + 75), static_cast<int>(screenSB.v[0].y),
+		static_cast<int>(screenSB.v[1].x+43 + 75), static_cast<int>(screenSB.v[1].y),
+		static_cast<int>(screenSB.v[2].x+43 + 75), static_cast<int>(screenSB.v[2].y),
+		static_cast<int>(screenSB.v[3].x+43 + 75), static_cast<int>(screenSB.v[3].y),
 		0, 0,
 		static_cast<int>(scoreBoardTransform_.width),
 		static_cast<int>(scoreBoardTransform_.height),
@@ -63,10 +63,10 @@ void UI::ScoreBoardDraw() {
 		Quad screen = CameraManager::GetInstance()->GetUICamera().WorldToScreen(digitTransform);
 
 		Novice::DrawQuad(
-			static_cast<int>(screen.v[0].x), static_cast<int>(screen.v[0].y),
-			static_cast<int>(screen.v[1].x), static_cast<int>(screen.v[1].y),
-			static_cast<int>(screen.v[2].x), static_cast<int>(screen.v[2].y),
-			static_cast<int>(screen.v[3].x), static_cast<int>(screen.v[3].y),
+			static_cast<int>(screen.v[0].x + 75), static_cast<int>(screen.v[0].y),
+			static_cast<int>(screen.v[1].x + 75), static_cast<int>(screen.v[1].y),
+			static_cast<int>(screen.v[2].x + 75), static_cast<int>(screen.v[2].y),
+			static_cast<int>(screen.v[3].x + 75), static_cast<int>(screen.v[3].y),
 			0, 0, static_cast<int>(numberSize.x), static_cast<int>(numberSize.y),
 			numbersTextureHandle[digit], // 抽出した数字のハンドル
 			0xFFFFFFFF

@@ -12,7 +12,7 @@ void UI::Init() {
 	comboTransform_.Init({ 0.0f,0.0f }, comboSize.x, comboSize.y);
 }
 
-void UI::Update() {
+void UI::Update(const Vector2& playerWorldPos) {
 	int currentCombo = ComboManager::GetInstance()->GetComboCount();
 
 	if (currentCombo > lastComboDrawn_) {
@@ -23,6 +23,12 @@ void UI::Update() {
 		comboShakeTime_ = 0.0f;
 		comboShakePower_ = 16.0f; // set shake amplitude (pixels)
 		comboEffectActive_ = true;
+
+		comboPopupBase_ = playerWorldPos;
+
+		float angle = float(rand() % 360) * 3.1415926f / 180.0f;     // random angle 0~2pi
+		float distance = 52.0f + float(rand() % 36);                  // 52~87 px
+		comboPopupRand_ = { std::cosf(angle) * distance, std::sinf(angle) * distance };
 	}
 	lastComboDrawn_ = currentCombo;
 	Score::GetInstance()->Update();
@@ -89,15 +95,28 @@ void UI::ScoreBoardDraw() {
 }
 
 
-void UI::ComboDraw(const Transform2D& playerPos,float cameraRotate) {
+void UI::ComboDraw(const Transform2D& /*playerPos*/, float cameraRotate) {
 	ComboManager* combo = ComboManager::GetInstance();
 		comboTransform_.rotation = cameraRotate;
 
 	// 2コンボ以上の時だけ、タイマーが残っている間に表示
 	if (combo->GetComboCount() >= 1 && combo->GetTimer() > 0) {
 
+		// Calculate combo popup position
+		Vector2 baseComboPos;
+		if (comboEffectActive_) {
+			// Animate the combo popup from player outward (and back in)
+			float t = 1.0f - std::fmin(comboScaleEasing_.easingRate, 1.0f);
+			// t: 1 at start, 0 at end of effect
+			baseComboPos.x = comboPopupBase_.x + comboPopupRand_.x * (0.5f + 0.5f * t);
+			baseComboPos.y = comboPopupBase_.y + comboPopupRand_.y * (0.5f + 0.5f * t);
+		}
+		else {
+			baseComboPos.x = comboPopupBase_.x + comboPopupRand_.x * 0.5f;
+			baseComboPos.y = comboPopupBase_.y + comboPopupRand_.y * 0.5f;
+		}
 
-		switch (GameConfig::GetInstance()->GetStageState()) {
+		/*switch (GameConfig::GetInstance()->GetStageState()) {
 
 
 		case GameConfig::TOP:
@@ -117,7 +136,7 @@ void UI::ComboDraw(const Transform2D& playerPos,float cameraRotate) {
 
 			break;
 		
-		}
+		}*/
 
 		//comboTransform_.worldPos = comboPos;
 		// ... inside ComboDraw()
@@ -140,7 +159,7 @@ void UI::ComboDraw(const Transform2D& playerPos,float cameraRotate) {
 			}
 
 			// === Calc position for popup+shake ===
-			Vector2 baseComboPos = comboPos; // This comes from your logic as before
+			//Vector2 baseComboPos = comboPos; // This comes from your logic as before
 			Vector2 drawPos = { baseComboPos.x + shakeX, baseComboPos.y + shakeY };
 
 			// Center the scaling (your transform); adjust as needed

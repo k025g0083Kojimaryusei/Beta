@@ -6,12 +6,13 @@
 #include <Novice.h>
 #include "GameConfig.h"
 #include "Easing.h"
+#include "Player.h"
 class UI {
 public:
 
 	UI();
 	void Init();
-	void Update();
+	void Update(const Vector2& playerWorldPos);
 	void Draw(const Transform2D & playerPos,float cameraRotate);
 
 private:
@@ -87,4 +88,8 @@ private:
 	bool  comboEffectActive_ = false;          // Is effect active?
 
 	int lastComboDrawn_ = 0;
+
+	// --- Add these: ---
+	Vector2 comboPopupBase_;      // The player position for this popup (set when combo increases)
+	Vector2 comboPopupRand_;      // The random position offset around the player for popup
 };

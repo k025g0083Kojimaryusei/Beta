@@ -90,7 +90,7 @@ void GamePlay::Update(char* keys, char* preKeys) {
 	NextStageCheck();
 
 	//UI更新
-	ui_.Update();
+	ui_.Update(player_.GetTransform().worldPos);
 	
 }
 

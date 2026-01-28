@@ -10,6 +10,7 @@
 #include "UI.h"
 #include "PlayBackground.h"
 #include "Score.h"
+#include "ComboManager.h"
 #include <vector>
 
 
@@ -17,6 +18,12 @@
 class GamePlay {
 public:
 
+	enum GameState {
+		Play,
+		Ranking,
+	};
+
+	GameState state = Play;
 	GamePlay();											//コンストラクタ
 	void Init();										//初期化
 	void Update(char* keys, char* preKeys);				//更新	
@@ -26,7 +33,7 @@ private:
 	Player player_;										//プレイヤー
 	Enemy enemy_;										//敵
 	UI ui_;												//UI
-	PlayBackground bg_;                                                //背景
+	PlayBackground bg_;								//背景
 	Collider collider_;									//当たり判定
 	Easing cameraRotateEasing_;							//カメラ回転イージング
 	float currentCameraRotation_ = 0.0f;				//現在のカメラ回転角度

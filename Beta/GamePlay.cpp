@@ -7,8 +7,9 @@ GamePlay::GamePlay() {
 	Init();
 }
 
-void GamePlay::Init()
-{
+
+
+void GamePlay::Init() {
 	//メインカメラの初期化
 	CameraManager::GetInstance()->GetMainCamera().InitCameraTransform(mainCameraInfo, 1280.0f, 720.0f);
 	
@@ -19,7 +20,8 @@ void GamePlay::Init()
 	//ステージステータスの初期化
 	GameConfig::GetInstance()->SetStageState(GameConfig::TOP);
 	GameConfig::GetInstance()->SetPrevStageState(GameConfig::TOP);
-
+	GameConfig::GetInstance()->SetCurrentStage(0);
+	GameConfig::GetInstance()->SetCurrentWave(0);
 	//カメラ回転角度の初期化
 	currentCameraRotation_ = 0.0f;
 	
@@ -32,10 +34,23 @@ void GamePlay::Init()
 	//UIの初期化
 	ui_.Init();
 
+	//コンボの初期化
+	ComboManager::GetInstance()->ResetCombo();
+
+	//スコアの初期化
+	Score::GetInstance()->ResetScore();
+
+	//ステージ回転の初期化
+	cameraRotateEasing_.Init(0.0f, 0.0f, 60, EasingType::EASING_EASE_IN_OUT_QUAD);
+	cameraRotateEasing_.easingRate = 0.0f;
 }
 
 
 void GamePlay::Update(char* keys, char* preKeys) {
+
+	if (keys[DIK_R] && !preKeys[DIK_R]) {
+		Score::GetInstance()->ResetScore();
+	}
 
 	bg_.Update();
 
@@ -76,9 +91,7 @@ void GamePlay::Update(char* keys, char* preKeys) {
 
 	//UI更新
 	ui_.Update();
-	//スコア更新
-	Score::GetInstance()->Update();
-
+	
 }
 
 //描画処理
@@ -87,7 +100,7 @@ void GamePlay::Draw() {
 	stage_.Draw();
 	player_.Draw();
 	enemy_.Draw();
-	ui_.Draw();
+	ui_.Draw(player_.GetTransform(),currentCameraRotation_);
 	DebugText();
 }
 
@@ -97,7 +110,8 @@ void GamePlay::DebugText() {
 	ImGui::Text("stage = %d", GameConfig::GetInstance()->GetCurrentStage());
 	ImGui::Text("Wave = % d", GameConfig::GetInstance()->GetCurrentWave());
 	ImGui::Text("Score = %d", Score::GetInstance()->GetDisplayScore());
-	ImGui::Text("Combo = % d",combo);
+	ImGui::Text("Combo = % d",ComboManager::GetInstance()->GetComboCount());
+	ImGui::Text("StageState = %d", GameConfig::GetInstance()->GetStageState());
 	ImGui::End();
 	
 
@@ -171,11 +185,10 @@ bool GamePlay::PlayerIsHitEnemy() {
 		}
 		if (collider_.AABB(playerTransform, enemy.transform)) {
 
-			combo++;
 			int maxEnemies = enemy_.GetMaxEnemyCount();
 		
-			Score::GetInstance()->AddScore(maxEnemies,combo);
-
+			ComboManager::GetInstance()->AddCombo();
+			Score::GetInstance()->AddScore(maxEnemies);
 			enemy.isActive = false; // 生存フラグをfalse
 			player_.SetIsHitEnemy(true); // プレイヤーに当たりフラグを設定
 			return true; // 衝突が検出された場合、trueを返す
@@ -207,7 +220,7 @@ void GamePlay::WaveCountCheck() {
 		
 		int nextWave = config->GetCurrentWave() + 1;
 		config->SetCurrentWave(nextWave);
-
+		ComboManager::GetInstance()->ResetCombo();
 		combo = 0;
 	}
 

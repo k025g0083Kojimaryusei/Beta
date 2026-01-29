@@ -182,6 +182,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="TitleLogo2.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TitleScene2.cpp" />
+    <ClCompile Include="TutorialBackground.cpp" />
     <ClCompile Include="TutorialScene.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
@@ -238,6 +239,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="TitleLogo2.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TitleScene2.h" />
+    <ClInclude Include="TutorialBackground.h" />
     <ClInclude Include="TutorialScene.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>

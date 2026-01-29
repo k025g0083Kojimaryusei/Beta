@@ -128,6 +128,9 @@
     <ClCompile Include="ScoreScene.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="TutorialBackground.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -280,5 +283,8 @@
     <ClInclude Include="PlayBackground.h" />
     <ClInclude Include="TutorialScene.h" />
     <ClInclude Include="ScoreScene.h" />
+    <ClInclude Include="TutorialBackground.h">
+      <Filter>GamePlay\UI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

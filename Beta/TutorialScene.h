@@ -3,6 +3,7 @@
 #include "Easing.h"
 #include "TitleBackground.h"
 #include "Score.h"
+#include "TutorialBackground.h"
 
 class TutorialScene : public Scene
 {
@@ -14,6 +15,7 @@ public:
 private:
 	SceneManager* sceneManager;
 	TitleBackground bg_;
+	TutorialBackground tutorialBg_;
 	int bgTexture_;
 	int enterTexture_;
 	int posX_ = 640;

@@ -4,7 +4,7 @@
 
 
 TutorialScene::TutorialScene(SceneManager* manager)
-    : sceneManager(manager), bg_()
+	: sceneManager(manager), bg_(), tutorialBg_()
 {
     //bgTexture_ = Novice::LoadTexture("./Textures/UI/BackGround/credit3.png");
     enterTexture_ = Novice::LoadTexture("./Textures/UI/enter.png");
@@ -20,6 +20,7 @@ void TutorialScene::Update(char* keys, char* preKeys)
     Score::GetInstance()->ResetScore();
 
     bg_.Update();
+	tutorialBg_.Update();
 
     if (!preKeys[DIK_RETURN] && keys[DIK_RETURN])
     {
@@ -50,8 +51,8 @@ void TutorialScene::Update(char* keys, char* preKeys)
 
 void TutorialScene::Draw()
 {
-
     bg_.Draw();
+	tutorialBg_.Draw();
 
     // Calculate breathing scale and color tint for the background
     //float breathScale = 1.0f + std::sin(bgBreathPhase_) * 0.012f;

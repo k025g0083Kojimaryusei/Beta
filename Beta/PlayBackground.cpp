@@ -4,11 +4,11 @@
 
 PlayBackground::PlayBackground()
 {
-	textureHandles_[0] = Novice::LoadTexture("./Textures/UI/background/bg1.png");
-	textureHandles_[1] = Novice::LoadTexture("./Textures/UI/background/bg2.png");
-	textureHandles_[2] = Novice::LoadTexture("./Textures/UI/background/bg3.png");
-	textureHandles_[3] = Novice::LoadTexture("./Textures/UI/background/bg4.png");
-	textureHandles_[4] = Novice::LoadTexture("./Textures/UI/background/bg5.png");
+	textureHandles_[0] = Novice::LoadTexture("./Textures/UI/background/bgg1.png");
+	textureHandles_[1] = Novice::LoadTexture("./Textures/UI/background/bgg2.png");
+	textureHandles_[2] = Novice::LoadTexture("./Textures/UI/background/bgg3.png");
+	textureHandles_[3] = Novice::LoadTexture("./Textures/UI/background/bgg4.png");
+	textureHandles_[4] = Novice::LoadTexture("./Textures/UI/background/bgg5.png");
 	logoTexture_= Novice::LoadTexture("./Textures/UI/background/playlogo.png");
 }
 

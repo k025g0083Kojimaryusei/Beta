@@ -149,7 +149,7 @@ void GamePlay::Draw() {
 	player_.Draw();
 	enemy_.Draw();
 	ui_.Draw(player_.GetTransform(),currentCameraRotation_, player_.GetHP());
-	DebugText();
+	//DebugText();
 
 }
 

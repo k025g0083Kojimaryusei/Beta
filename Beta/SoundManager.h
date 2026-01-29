@@ -14,7 +14,10 @@ public:
 
     // サウンドを再生する　例: Play("BGM", 128, true)
     // volume : 0〜255, loop : true=ループ, false=一回だけ
-    void Play(const std::string& name, int volume = 255, bool loop = false);
+    void Play(const std::string& name, float volume = 255.0f, bool loop = false);
+
+    // In SoundManager.h, public:
+    bool IsPlaying(const std::string& name) const;
 
     // サウンドを停止する
     void Stop(const std::string& name);

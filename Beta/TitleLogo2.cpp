@@ -2,6 +2,7 @@
 #include <Novice.h>
 #include <cmath>
 #include <tuple>
+#include "SoundManager.h"
 
 TitleLogo2::TitleLogo2() {
     texWhite_ = Novice::LoadTexture("./Textures/UI/Title/Logo/titl1.png");
@@ -11,9 +12,13 @@ TitleLogo2::TitleLogo2() {
     // EasingType is the same as your existing TitleScene (InOutSine)
     scaleEasing_.Init(0.0f, 1.0f, introDuration_, EasingType::EASING_EASE_IN_OUT_SINE);
     scaleEasing_.Start();
+
+    SoundManager::Get().Load("Intro", "./Sounds/intro.mp3");
+    
 }
 
 void TitleLogo2::Update() {
+   
     frameCount_++;
 
     // Scale and rotation in intro
@@ -32,6 +37,7 @@ void TitleLogo2::Update() {
     } else {
         // Instead of hover, just let the time run for shaking effect.
         shakeTimer_ += 3.0f;
+		
     }
 }
 

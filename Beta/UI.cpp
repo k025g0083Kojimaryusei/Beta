@@ -102,7 +102,7 @@ void UI::Draw(const Transform2D& playerPos,float cameraRotate, int hp) {
 	ComboDraw(playerPos,cameraRotate);
 	DrawHPBar(hp);
 
-	ImGui::DragFloat2("position", &scoreTextPos.x, 0.1f);
+	//ImGui::DragFloat2("position", &scoreTextPos.x, 0.1f);
 	scoreBoardTransform_.Init(scoreTextPos, scoreBoardW, scoreBoardH);
 
 	Quad screenSB = CameraManager::GetInstance()->GetUICamera().WorldToScreen(scoreBoardTransform_);
@@ -119,7 +119,7 @@ void UI::Draw(const Transform2D& playerPos,float cameraRotate, int hp) {
 }
 
 void UI::ScoreBoardDraw() {
-	ImGui::DragFloat2("Numberpos", &numberPos.x, 0.1f);
+	//ImGui::DragFloat2("Numberpos", &numberPos.x, 0.1f);
   
 	const int kMaxDigits = 7;
 

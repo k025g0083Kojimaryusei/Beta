@@ -25,6 +25,7 @@ void TutorialScene::Update(char* keys, char* preKeys)
     if (!preKeys[DIK_RETURN] && keys[DIK_RETURN])
     {
         sceneManager->ChangeScene(SceneType::Play);
+        SoundManager::Get().Stop("BGM");
     }
     frameCount_++;
 

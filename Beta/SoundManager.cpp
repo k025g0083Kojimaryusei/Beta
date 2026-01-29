@@ -13,13 +13,24 @@ void SoundManager::Load(const std::string& name, const char* filename) {
 }
 
 // サウンドの再生
-void SoundManager::Play(const std::string& name, int volume, bool loop) {
-    // すでにロードされていたら
+void SoundManager::Play(const std::string& name, float volume, bool loop) {
     if (soundData_.count(name)) {
         int handle = soundData_[name];
-        int playHandle = Novice::PlayAudio(handle, loop, static_cast<float>(volume));
+        int loopFlag = loop ? 1 : 0;
+        // Pass volume as float directly!
+        int playHandle = Novice::PlayAudio(handle, loopFlag, volume);
         playingHandle_[name] = playHandle;
     }
+}
+
+// In SoundManager.cpp:
+bool SoundManager::IsPlaying(const std::string& name) const {
+    // If key exists and still returns PlayAudio as "playing":
+    auto it = playingHandle_.find(name);
+    if (it != playingHandle_.end()) {
+        return Novice::IsPlayingAudio(it->second); // true if handle is active
+    }
+    return false;
 }
 
 // サウンドの停止

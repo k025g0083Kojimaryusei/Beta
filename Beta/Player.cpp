@@ -43,9 +43,9 @@ void Player::Init() {
 void Player::Update(char* keys, char* preKeys, const Transform2D& stage) {
 	Move(keys, preKeys, stage);
 	RotateTexture();
-	ImGui::Begin("Player Info");
+	/*ImGui::Begin("Player Info");
 	ImGui::SliderFloat("Speed",&gravityStrength,0.5f,5.0f);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 //描画処理
@@ -63,7 +63,7 @@ void Player::Draw() {
 		playerTextureHandle[directionChangeLeft], WHITE
 	);
 
-	Novice::ScreenPrintf(0,20,"PlayerDirectionLeft = %d",directionChangeLeft);
+	//Novice::ScreenPrintf(0,20,"PlayerDirectionLeft = %d",directionChangeLeft);
 }
 
 //移動処理

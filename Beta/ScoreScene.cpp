@@ -13,6 +13,8 @@ ScoreScene::ScoreScene(SceneManager* manager)
     breathEasing_.Start();
     isBreathForward_ = true;
     Score::GetInstance()->ResetScore();
+	SoundManager::Get().Load("BGM", "./Sounds/bgm.mp3");
+	SoundManager::Get().Play("BGM", 1.0f, true);
 }
 
 void ScoreScene::Update(char* keys, char* preKeys)

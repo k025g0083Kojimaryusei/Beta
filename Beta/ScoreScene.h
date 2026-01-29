@@ -3,6 +3,7 @@
 #include "Easing.h"
 #include "TitleBackground.h"
 #include "Score.h"
+#include "SoundManager.h"
 
 class ScoreScene : public Scene
 {

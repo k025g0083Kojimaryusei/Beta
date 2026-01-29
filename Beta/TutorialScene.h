@@ -4,6 +4,7 @@
 #include "TitleBackground.h"
 #include "Score.h"
 #include "TutorialBackground.h"
+#include "SoundManager.h"
 
 class TutorialScene : public Scene
 {

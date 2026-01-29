@@ -6,13 +6,16 @@
 #include "TutorialScene.h"
 #include "ScoreScene.h"
 #include <cmath>
+#include "SoundManager.h"
 
 SceneManager::SceneManager()
 {
 	currentType_ = SceneType::Title;
 	currentScene_ = new TitleScene2(this);
+    currentScene_->Begin();
     radialGlowTex_ = Novice::LoadTexture("./Textures/UI/glow.png"); 
     bgTexture_ = Novice::LoadTexture("./Textures/UI/BackGround/logo.png");
+    SoundManager::Get().Load("Tv","./Sounds/tvSound.mp3");
 }
 
 SceneManager::~SceneManager()
@@ -49,6 +52,8 @@ void SceneManager::StartTransition(SceneType to)
     // do NOT call horizonEasing_.Start() here
 
     pauseTimer_ = pauseDuration_;
+
+	SoundManager::Get().Play("Tv",1.0f,false);
 }
 
 void SceneManager::UpdateTransition()
@@ -110,6 +115,9 @@ void SceneManager::UpdateTransition()
         horizonEasing_.easingRate = 1.0f;
         if (!vertEasing_.isMove) {
             inTransition_ = false;
+            if (currentScene_) {
+                currentScene_->Begin(); // Only if Begin() exists for the scene!
+            }
         }
         break;
     }

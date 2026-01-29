@@ -34,11 +34,15 @@ TitleScene2::TitleScene2(SceneManager* manager)
     logoCurrentX_ = logo_.GetCenterX();
     logoStartX_ = logo_.GetCenterX();
     logoTargetX_ = 304.0f; // aligns it to your left red line!
+
+    SoundManager::Get().Load("Select","./Sounds/click.mp3");
+	SoundManager::Get().Load("Intro", "./Sounds/intro.mp3");
+    SoundManager::Get().Load("BGM", "./Sounds/bgm.mp3");
 }
 
 void TitleScene2::Update(char* keys, char* preKeys)
 {
-
+   
     bg_.Update();
 
     frameCount_++;
@@ -48,7 +52,13 @@ void TitleScene2::Update(char* keys, char* preKeys)
     case TitleState::Intro:
         logo_.Update();
         logoCurrentX_ = logo_.GetCenterX();
-        if (logo_.IsIntroFinished()) state_ = TitleState::Shake;
+        if (logo_.IsIntroFinished()) { 
+			SoundManager::Get().Stop("Intro");
+            if (!SoundManager::Get().IsPlaying("BGM")) {
+                SoundManager::Get().Play("BGM", 1.0f, true);
+            }
+            state_ = TitleState::Shake;
+        }
         break;
     case TitleState::Shake:
         logo_.Update();
@@ -77,10 +87,12 @@ void TitleScene2::Update(char* keys, char* preKeys)
 
         // Up/down input (arrow keys and W/S, just like your old TitleScene)
         if ((keys[DIK_UP] && !preKeys[DIK_UP]) || (keys[DIK_W] && !preKeys[DIK_W])) {
+            SoundManager::Get().Play("Select",1.5f,false);
             selectedIndex_ = (selectedIndex_ + 2) % 3;
             noiseTimer_ = 0;
         }
         if ((keys[DIK_DOWN] && !preKeys[DIK_DOWN]) || (keys[DIK_S] && !preKeys[DIK_S])) {
+            SoundManager::Get().Play("Select",1.5f,false);
             selectedIndex_ = (selectedIndex_ + 1) % 3;
             noiseTimer_ = 0;
         }
@@ -150,4 +162,9 @@ void TitleScene2::Draw()
             Novice::DrawSprite(menuTextX_[i], menuTextY_[i], btnTex_[i][frame], 1.0f, 1.0f, 0.0f, WHITE);
         }
     }
+}
+
+void TitleScene2::Begin() {
+    SoundManager::Get().Play("Intro", 0.8f, false); // start intro at exactly right time
+    // Optionally add a flag to ensure no double-play if needed
 }

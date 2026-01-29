@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "TitleBackground.h"
 #include "TitleLogo.h"
+#include "SoundManager.h"
 
 class TitleScene : public Scene
 {
@@ -10,6 +11,7 @@ public:
 
 	void Update(char* keys, char* preKeys) override;
 	void Draw() override;
+	
 
 private:
 	SceneManager* sceneManager;

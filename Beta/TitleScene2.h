@@ -5,6 +5,7 @@
 #include "TitleBackground.h"
 #include "TitleLogo2.h"
 #include <Novice.h>
+#include "SoundManager.h"
 
 // Animation states for the title
 enum class TitleState {
@@ -20,6 +21,7 @@ public:
 
     void Update(char* keys, char* preKeys) override;
     void Draw() override;
+    void Begin();
 
 private:
     SceneManager* sceneManager;

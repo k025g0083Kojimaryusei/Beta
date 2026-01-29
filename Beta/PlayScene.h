@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "GamePlay.h"
 #include "PlayBackground.h"
+#include "SoundManager.h"
 
 class PlayScene : public Scene
 {

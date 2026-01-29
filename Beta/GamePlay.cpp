@@ -111,6 +111,8 @@ void GamePlay::Update(char* keys, char* preKeys) {
 		if (newHp < 0) newHp = 0;
 		player_.SetHP(newHp);
 
+		bg_.TriggerRedFlash();
+
 		// clear the damage count for next frame (not strictly required, Move() resets each tick)
 		enemy_.ResetNumZeroedThisTick();
 	}

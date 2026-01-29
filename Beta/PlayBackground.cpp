@@ -22,18 +22,50 @@ void PlayBackground::Update()
 			currentFrame_ = 0;
 		}
 	}
+
+	if (isRedFlashing_) {
+		redFlashTimer_++;
+		// Fade out: fade quickly at start then slower
+		redFlashAlpha_ = 1.0f - (float)redFlashTimer_ / (float)kRedFlashDuration_;
+		if (redFlashAlpha_ < 0.0f) redFlashAlpha_ = 0.0f;
+
+		if (redFlashTimer_ > kRedFlashDuration_) {
+			isRedFlashing_ = false;
+			redFlashAlpha_ = 0.0f;
+		}
+	}
 }
 
 void PlayBackground::Draw()
 {
 	int handle = textureHandles_[currentFrame_];
+	// Always draw BG with WHITE
 	Novice::DrawSprite(
-		posX_ - width_ /2,
-		posY_ - height_ /2,
+		posX_ - width_ / 2,
+		posY_ - height_ / 2,
 		handle,
 		1.0f, 1.0f,
 		0.0f,
 		WHITE);
+
+	// Draw the red overlay ON TOP (not below) when flashing
+	if (isRedFlashing_ && redFlashAlpha_ > 0.0f) {
+		int alpha = (int)(redFlashAlpha_ * 180); // 0~255, tweak as needed
+		if (alpha > 255) alpha = 255;
+		if (alpha < 0) alpha = 0;
+		// RGBA color: red with alpha. For Novice, usually 0xRRGGBBAA or 0xAARRGGBB (test!).
+		int flashColor = (0xFF << 24) | (0x00 << 16) | (0x00 << 8) | (alpha); // 0xFF0000AA (red A)
+		// If Novice is 0xRRGGBBAA:
+		flashColor = (0xFF << 24) | (alpha); // 0xFF0000AA (red with alpha at the end)
+		Novice::DrawBox(
+			posX_ - width_ / 2,
+			posY_ - height_ / 2,
+			width_,
+			height_,
+			0.0f,
+			flashColor,
+			kFillModeSolid);
+	}
 }
 
 void PlayBackground::DrawLogo()
@@ -49,4 +81,10 @@ void PlayBackground::DrawLogo()
 		1.0f, 1.0f,
 		0.0f,
 		WHITE);
+}
+
+void PlayBackground::TriggerRedFlash() {
+	isRedFlashing_ = true;
+	redFlashTimer_ = 0;
+	redFlashAlpha_ = 1.0f; // start fully opaque
 }

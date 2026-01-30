@@ -164,12 +164,27 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Camera2D.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ComboManager.cpp" />
+    <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="Easing.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyEffect.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayBackground.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="RankingScene.cpp" />
+    <ClCompile Include="ScoreScene.cpp" />
+    <ClCompile Include="SenceManager.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="TitleBackground.cpp" />
+    <ClCompile Include="TitleLogo.cpp" />
+    <ClCompile Include="TitleLogo2.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="TitleScene2.cpp" />
+    <ClCompile Include="TutorialBackground.cpp" />
+    <ClCompile Include="TutorialScene.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -205,14 +220,29 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ComboManager.h" />
+    <ClInclude Include="CreditScene.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyEffect.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="Easing.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="Object2D.h" />
+    <ClInclude Include="PlayBackground.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="RankingScene.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="ScoreScene.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="TitleBackground.h" />
+    <ClInclude Include="TitleLogo.h" />
+    <ClInclude Include="TitleLogo2.h" />
+    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="TitleScene2.h" />
+    <ClInclude Include="TutorialBackground.h" />
+    <ClInclude Include="TutorialScene.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

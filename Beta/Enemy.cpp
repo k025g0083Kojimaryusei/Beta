@@ -99,7 +99,13 @@ void Enemy::SpawnEnemy(const Transform2D& spawnStage) {
 void Enemy::Move() {
 	GameConfig* config = GameConfig::GetInstance();
 	float ts = GameConfig::GetInstance()->GetTimeScale();
+	
+	
+	//もしも、ウェーブが変更されていたら
+
 	bool waveChanged = config->IsWaveChanged();
+
+	numEnemiesZeroedThisTick_ = 0; // RESET at start of Move!
 
 	for (EnemyData& enemy : enemies) {
 		if (!enemy.isActive) {
@@ -107,8 +113,14 @@ void Enemy::Move() {
 		}
 		
 		if (waveChanged) {
-			if (enemy.count > 0) {
-				enemy.count--;
+			enemy.count--;
+			if (enemy.count < 0) {
+				// If red enemy, save its position for an effect
+				if (enemy.count == -1 && enemy.isActive && enemy.count + 1 == 1) { // it was red at last frame, now dying
+					naturalRedDeaths_.push_back(enemy.transform.worldPos);
+				}
+				enemy.isActive = false;
+				numEnemiesZeroedThisTick_++;
 			}
 		}
 
@@ -116,8 +128,6 @@ void Enemy::Move() {
 		enemy.transform.worldPos.y += enemy.velocity.y * enemy.speed.y * ts;
 		
 	}
-	
-
 }
 
 //ステージ内にクランプする処理

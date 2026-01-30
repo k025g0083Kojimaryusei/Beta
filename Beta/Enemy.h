@@ -6,6 +6,7 @@
 #include"Collider.h"
 #include "Easing.h"
 #include <vector>
+#include "EnemyEffect.h"
 
 class Enemy {
 public:
@@ -52,12 +53,23 @@ public:
 		return stageEnemyCount[stage];
 	}
 
+	int GetNumZeroedThisTick() const { return numEnemiesZeroedThisTick_; }
+	void ResetNumZeroedThisTick() { numEnemiesZeroedThisTick_ = 0; }
+
+	const std::vector<Vector2>& GetNaturalRedDeaths() const { return naturalRedDeaths_; }
+	void ClearNaturalRedDeaths() { naturalRedDeaths_.clear(); }
+
+	// In Enemy.h (in Enemy class, public section)
+	bool IsRed(const EnemyData& e) const { return e.count == 0; }
+
 private:
 	//敵データ配列
 	std::vector<EnemyData> enemies;
 
 	Easing rotateEasing;				//テクスチャ回転イージング
 	float targetRotation = 0.0f;		//目標回転角度
+
+	int numEnemiesZeroedThisTick_ = 0;
 
 	//敵テクスチャ
 	int countTexture40[6] = {
@@ -117,5 +129,6 @@ private:
 	bool canCountdown = false;
 	int prevWaveCount = GameConfig::GetInstance()->GetCurrentWave();
 
+	std::vector<Vector2> naturalRedDeaths_;
 };
 

@@ -18,6 +18,10 @@ public:
 
 	bool IsOnGround() const { return onGround; }
 
+	// --- HP interface ---
+	int GetHP() const { return hp_; }
+	void SetHP(int v) { hp_ = v; }
+
 private:
 	//プレイヤーの向き
 	enum Direction {
@@ -28,7 +32,7 @@ private:
 	};
 
 	Collider collider;											//当たり判定
-	Vector2 size = { 60.0f,60.0f };								//サイズ
+	Vector2 size = { 52.0f,60.0f };								//サイズ
 	Transform2D transform;										//データ
 	Vector2 velocity = {};										//速度
 	Direction direction;										//向いている方向
@@ -47,6 +51,7 @@ private:
 	Easing rotateEasing;										//テクスチャ回転イージング
 	float targetRotation = 0.0f;								//目標回転角度
 	bool isHitEnemy = false;									//敵に当たったか
+	int hp_ = 5;
 
 	//プレイヤーテクスチャ
 	int playerTextureHandle[3] = {

@@ -1,25 +1,20 @@
-﻿#include <Novice.h>
-#include "GamePlay.h"
+#include <Novice.h>
+#include "Scene.h" 
 
 const char kWindowTitle[] = "コジマ";
-
-enum StageFlow {
-	StageFlow_Play,
-	StageFlow_Reset
-};
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, 1280, 720);
+	//Novice::SetWindowMode(WindowMode::kFullscreen);
 	// キー入力結果を受け取る箱
-	char keys[256] = {0};
-	char preKeys[256] = {0};
-	StageFlow stageFlow = StageFlow_Play;
+	char keys[256] = { 0 };
+	char preKeys[256] = { 0 };
 
-		GamePlay gamePlay;
-		gamePlay.Init();
+	SceneManager sceneManager;
+
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
@@ -29,36 +24,23 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
 
-		switch (stageFlow) {
-
-		case StageFlow_Play:
-			gamePlay.Update(keys, preKeys);
-			gamePlay.Draw();
-
-			if (keys[DIK_R] && !preKeys[DIK_R]) {
-				stageFlow = StageFlow_Reset;
-			}
-
-			break;
-
-		case StageFlow_Reset:
-			if (keys[DIK_R] && !preKeys[DIK_R]) {
-				gamePlay.Init();
-				stageFlow = StageFlow_Play;
-			}
-			break;
-		}
-
 		///
 		/// ↓更新処理ここから
 		///
 		///
 		/// ↑更新処理ここまで
 		///
-	
+
+		sceneManager.UpdateCurrentScene(keys, preKeys);
+
 		///
 		/// ↓描画処理ここから
 		///
+
+		sceneManager.DrawCurrentScene();
+
+		//unsigned int color = WHITE; // semi-transparent red
+		//Novice::DrawBox(320, 180, 640, 360, 0.0f, color, kFillModeSolid);
 
 		///
 		/// ↑描画処理ここまで
@@ -67,8 +49,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		// フレームの終了
 		Novice::EndFrame();
 
-		// ESCキーが押されたらループを抜ける
-		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0) {
+		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0 &&
+			sceneManager.GetCurrentSceneType() == SceneType::Title) {
 			break;
 		}
 	}

@@ -53,12 +53,6 @@
     <Filter Include="GamePlay\background">
       <UniqueIdentifier>{a2a7a003-31a1-4647-b964-6d43e39a17a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GamePlay\Score">
-      <UniqueIdentifier>{1bdfa022-3a81-4fd6-bea2-b92db806f998}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GamePlay\Combo">
-      <UniqueIdentifier>{5c93bf24-e726-43ff-af16-eeab91c71085}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -92,8 +86,53 @@
     <ClCompile Include="Background.cpp">
       <Filter>GamePlay\background</Filter>
     </ClCompile>
+    <ClCompile Include="TitleBackground.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditScene.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RankingScene.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SenceManager.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo2.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene2.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
     <ClCompile Include="ComboManager.cpp">
-      <Filter>GamePlay\Combo</Filter>
+      <Filter>GamePlay\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayBackground.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialScene.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreScene.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialBackground.cpp">
+      <Filter>GamePlay\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyEffect.cpp">
+      <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,11 +253,42 @@
     <ClInclude Include="Background.h">
       <Filter>GamePlay\background</Filter>
     </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>GamePlay\Score</Filter>
+    <ClInclude Include="TitleBackground.h">
+      <Filter>GamePlay\UI</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>GamePlay\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>GamePlay\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditScene.h">
+      <Filter>GamePlay\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>GamePlay\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="RankingScene.h">
+      <Filter>GamePlay\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>GamePlay\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="TitleLogo2.h" />
+    <ClInclude Include="TitleScene2.h" />
     <ClInclude Include="ComboManager.h">
-      <Filter>GamePlay\Combo</Filter>
+      <Filter>GamePlay\GamePlay</Filter>
     </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>GamePlay\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayBackground.h" />
+    <ClInclude Include="TutorialScene.h" />
+    <ClInclude Include="ScoreScene.h" />
+    <ClInclude Include="TutorialBackground.h">
+      <Filter>GamePlay\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyEffect.h" />
   </ItemGroup>
 </Project>

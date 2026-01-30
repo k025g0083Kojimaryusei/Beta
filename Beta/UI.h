@@ -5,13 +5,17 @@
 #include "ComboManager.h"
 #include <Novice.h>
 #include "GameConfig.h"
+#include "Easing.h"
+#include "Player.h"
+#include <array>
+
 class UI {
 public:
 
 	UI();
 	void Init();
-	void Update();
-	void Draw(const Transform2D & playerPos,float cameraRotate);
+	void Update(const Vector2& playerWorldPos, int hp);
+	void Draw(const Transform2D & playerPos,float cameraRotate,int hp);
 
 private:
 
@@ -73,6 +77,59 @@ private:
 		Novice::LoadTexture("./Textures/UI/Combo/Combo29.png"),
 		Novice::LoadTexture("./Textures/UI/Combo/Combo30.png")
 	};
+
 	void ScoreBoardDraw();
 	void ComboDraw(const Transform2D & playerPos,float cameraRotate);
+	// --- HP Bar (Life Bar) ---
+	int lifeBarTexture_ = Novice::LoadTexture("./Textures/UI/lifebar.png");
+	int lifeIconTexture_ = Novice::LoadTexture("./Textures/UI/life.png");
+
+	// Bar and icon layout settings
+	static constexpr int kMaxHP = 5;
+	static constexpr int hpBarWidth_ = 440;
+	static constexpr int hpBarHeight_ = 12;
+	static constexpr int hpBarPosX_ = 640;  // Center of screen
+	static constexpr int hpBarPosY_ = 704;  // Near bottom
+	static constexpr int lifeIconWidth_ = 52;
+	static constexpr int lifeIconHeight_ = 48;
+	static constexpr int lifeIconSpacing_ = 12;
+	static constexpr int lifeIconFirstX_ = hpBarPosX_ - (lifeIconWidth_ + lifeIconSpacing_) * (kMaxHP / 2);
+	static constexpr int lifeIconY_ = hpBarPosY_ - 46; // Slightly above the bar
+
+	// For HP icon pop/scale effect (for each life)
+	float lifePopScale_[kMaxHP]{ 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+	Easing lifePopEasing_[kMaxHP];
+
+	// For HP icon shake effect (for each life)
+	float lifeShakeTime_[kMaxHP]{};
+	float lifeShakePower_[kMaxHP]{};
+	bool  lifeShakeActive_[kMaxHP]{};
+
+	// Track previous HP for edge detection
+	int lastLifeCount_ = kMaxHP;
+
+	void DrawHPBar(int hp); // Declare draw method
+
+	// == Add these members in UI class ==
+	float comboScale_ = 1.0f;                  // Current popup scale
+	
+	Easing comboScaleEasing_; 
+
+	float comboShakeTime_ = 0.0f;              // Shake animation time
+	float comboShakePower_ = 0.0f;             // Shake strength
+	bool  comboEffectActive_ = false;          // Is effect active?
+
+	int lastComboDrawn_ = 0;
+
+	// --- Add these: ---
+	Vector2 comboPopupBase_;      // The player position for this popup (set when combo increases)
+	Vector2 comboPopupRand_;      // The random position offset around the player for popup
+
+	float comboPopupRotation_ = 0.0f;  // The current (animated) rotation in degrees for combo popup
+	float comboPopupRotationPower_ = 0.0f; // How strong the rotation is at peak
+
+	// For max 7 digits, tracks scale of each digit popup
+	std::array<float, 7> scoreDigitScales_{};
+	std::array<Easing, 7> scoreDigitEasing_{};
+	int lastDisplayedScore_ = 0; // For change detection
 };

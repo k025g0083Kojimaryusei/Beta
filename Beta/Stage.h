@@ -23,5 +23,5 @@ private:
 	float backgroundWidth_ = 1300.0f;		//背景幅
 	float backgroundHeight_ = 740.0f;		//背景高さ
 	Transform2D backgroundTransform_;		//背景データ
-	int stageTextureHandle_ = Novice::LoadTexture("./Textures/Stage/stage.png");
+	int stageTextureHandle_ = Novice::LoadTexture("./Textures/Stage/stage2.png");
 };

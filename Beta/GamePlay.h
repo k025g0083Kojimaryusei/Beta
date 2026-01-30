@@ -8,12 +8,13 @@
 #include "Collider.h"
 #include "Enemy.h"
 #include "UI.h"
-#include "Background.h"
+#include "PlayBackground.h"
 #include "Score.h"
 #include "ComboManager.h"
 #include <vector>
-
-
+#include "SoundManager.h"
+//
+#include "EnemyEffect.h"
 
 class GamePlay {
 public:
@@ -28,12 +29,13 @@ public:
 	void Init();										//初期化
 	void Update(char* keys, char* preKeys);				//更新	
 	void Draw();										//描画
+	int GetPlayerHP() const { return player_.GetHP(); }
 private:
 	Stage stage_;										//ステージ
 	Player player_;										//プレイヤー
 	Enemy enemy_;										//敵
 	UI ui_;												//UI
-	Background background_;								//背景
+	PlayBackground bg_;								//背景
 	Collider collider_;									//当たり判定
 	Easing cameraRotateEasing_;							//カメラ回転イージング
 	float currentCameraRotation_ = 0.0f;				//現在のカメラ回転角度
@@ -55,4 +57,19 @@ private:
 	int slowMotionTime = 30;							//スローモーション時間
 
 	int combo = 0;										//コンボ数
+
+	// In GamePlay.h (private section)
+	float cameraShakeTime_ = 0.0f;
+	float cameraShakeDuration_ = 0.0f;
+	float cameraShakePower_ = 0.0f;
+	Vector2 cameraShakeOffset_ = { 0.0f, 0.0f };
+	Vector2 cameraBasePos_ = { 640.0f, 360.0f };
+
+	bool isPlayerWasHit_ = false;
+	bool wasPlayerHitInLastFrame_ = false;
+
+	/// <summary>
+	/// //////////
+	/// </summary>
+	std::vector<EnemyEffect> enemyEffects_;
 };

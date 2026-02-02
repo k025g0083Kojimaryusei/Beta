@@ -17,6 +17,7 @@ public:
 	TutorialScene(SceneManager* manager);
 	void Update(char* keys, char* preKeys) override;
 	void Draw() override;
+	
 
 private:
 	SceneManager* sceneManager;
@@ -44,4 +45,9 @@ private:
 
 
 	GamePlay miniGamePlay;
+
+	char keys_[256]{};
+
+	// Key UI handles: [W, A, S, D][state 0:up, 1:down]
+	int wasdTexHandles[4][2]{};
 };

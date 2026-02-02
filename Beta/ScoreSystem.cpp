@@ -78,15 +78,24 @@ void ScoreSystem::DrawScore(int score) {
 	// 背景描画
 	//Novice::DrawSprite(0, 0, BGtexture, 1.0f, 1.0f, 0.0f, WHITE);
 
-	ImGui::Begin("Score Layout");
-	ImGui::DragFloat2("ScorePos", &inputScorePos.x, 1.0f);
-	ImGui::DragFloat2("NamePos", &inputNamePos.x, 1.0f);
-	ImGui::DragFloat("Score Spacing", &inputScoreSpacing, 1.0f);
-	ImGui::DragFloat("Name Spacing", &inputNameSpacing, 1.0f);
-	ImGui::End();
+	//ImGui::Begin("Score Layout");
+	//ImGui::DragFloat2("ScorePos", &inputScorePos.x, 1.0f);
+	//ImGui::DragFloat2("NamePos", &inputNamePos.x, 1.0f);
+	//ImGui::DragFloat("Score Spacing", &inputScoreSpacing, 1.0f);
+	//ImGui::DragFloat("Name Spacing", &inputNameSpacing, 1.0f);
+	//ImGui::End();
 
 	// スコア描画
-	DrawScoreSprite(inputScorePos, score, inputScoreSpacing);
+
+	// Pad with zeros to 7 digits:
+	char buf[8];
+	sprintf_s(buf, "%07d", score);
+	std::string scoreStr = buf;
+
+	// Now, call the overload (see below):
+	DrawScoreSprite(inputScorePos, scoreStr, inputScoreSpacing);
+
+	//DrawScoreSprite(inputScorePos, score, inputScoreSpacing);
 	DrawNameSprite(inputNamePos, playerName, inputNameSpacing);
 }
 
@@ -94,18 +103,18 @@ void ScoreSystem::DrawRanking() {
 
 	const std::vector<RankingData>& currentScores = GetScores();
 	// --- ImGuiでの個別調整用UI ---
-	ImGui::Begin("Ranking Detailed Layout");
-	ImGui::DragFloat2("Rank Base Pos", &rankBasePos.x, 1.0f);
-	ImGui::DragFloat("Rank Spacing", &rankSpacing, 1.0f);
-
-	ImGui::DragFloat2("Name Base Pos", &nameBasePos.x, 1.0f);
-	ImGui::DragFloat("Name Spacing", &nameSpacing, 1.0f);
-
-	ImGui::DragFloat2("Score Base Pos", &scoreBasePos.x, 1.0f);
-	ImGui::DragFloat("Score Spacing", &scoreSpacing, 1.0f);
-
-	ImGui::DragFloat("Row Height", &rowHeight, 1.0f);
-	ImGui::End();
+	//ImGui::Begin("Ranking Detailed Layout");
+	//ImGui::DragFloat2("Rank Base Pos", &rankBasePos.x, 1.0f);
+	//ImGui::DragFloat("Rank Spacing", &rankSpacing, 1.0f);
+	//
+	//ImGui::DragFloat2("Name Base Pos", &nameBasePos.x, 1.0f);
+	//ImGui::DragFloat("Name Spacing", &nameSpacing, 1.0f);
+	//
+	//ImGui::DragFloat2("Score Base Pos", &scoreBasePos.x, 1.0f);
+	//ImGui::DragFloat("Score Spacing", &scoreSpacing, 1.0f);
+	//
+	//ImGui::DragFloat("Row Height", &rowHeight, 1.0f);
+	//ImGui::End();
 
 	// --- 描画処理 ---
 	for (int i = 0; i < static_cast<int>(currentScores.size()); i++) {
@@ -122,7 +131,11 @@ void ScoreSystem::DrawRanking() {
 
 		// 3. スコア (Score)
 		Vector2 sPos = { scoreBasePos.x, rankBasePos.y + yOffset };
-		DrawScoreSprite(sPos, currentScores[i].score, scoreSpacing);
+		// Pad the score to 7 digits
+		char buf[8];
+		sprintf_s(buf, "%07d", currentScores[i].score);
+		std::string paddedScore = buf;
+		DrawScoreSprite(sPos, paddedScore, scoreSpacing);
 	}
 	//Novice::DrawSprite(0, 0, BGtexture, 1.0f, 1.0f, 0.0f, WHITE);
 }//private-------------------------------------------------------------
@@ -193,7 +206,9 @@ void ScoreSystem::DrawScoreSprite(Vector2 pos, int score, float spacing) {
 		Vector2 pos_ = { pos.x + spacing * i,pos.y };
 
 		Vector2 screenPos = camera.WorldToScreen(pos_);
-	if (screenPos.y >= 200.0f && screenPos.y <= 500.0f) {
+
+	if (screenPos.y >= 230.0f && screenPos.y <= 510.0f) {
+
 			Novice::DrawSprite(
 				static_cast<int>(screenPos.x),
 				static_cast<int>(screenPos.y),
@@ -227,7 +242,7 @@ void ScoreSystem::DrawNameSprite(Vector2 pos, std::string& name, float spacing) 
 
 			Vector2 pos_ = { pos.x + spacing * i, pos.y };
 			Vector2 screenPos = camera.WorldToScreen(pos_);
-			if (screenPos.y >= 200.0f && screenPos.y <= 500.0f) {
+			if (screenPos.y >= 230.0f && screenPos.y <= 510.0f) {
 				Novice::DrawSprite(
 					static_cast<int>(screenPos.x),
 					static_cast<int>(screenPos.y),
@@ -327,5 +342,20 @@ void ScoreSystem::FocusOnFirstPlace() {
 
 	// 自動スクロール中なら解除
 	isAutoScrolling = false;
+}
+
+void ScoreSystem::DrawScoreSprite(Vector2 pos, const std::string& s, float spacing) {
+	for (int i = 0; i < s.length(); i++) {
+		int num = s[i] - '0';
+		Vector2 pos_ = { pos.x + spacing * i, pos.y };
+		Vector2 screenPos = camera.WorldToScreen(pos_);
+
+		if (screenPos.y >= 230.0f && screenPos.y <= 510.0f) {
+			Novice::DrawSprite(
+				static_cast<int>(screenPos.x),
+				static_cast<int>(screenPos.y),
+				numberTexture[num], 1.0f, 1.0f, 0.0f, WHITE);
+		}
+	}
 }
 

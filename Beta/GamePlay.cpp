@@ -298,10 +298,9 @@ bool GamePlay::PlayerIsHitEnemy() {
 		}
 		if (collider_.AABB(playerTransform, enemy.transform)) {
 
-			int maxEnemies = enemy_.GetMaxEnemyCount();
 		
 			ComboManager::GetInstance()->AddCombo();
-			Score::GetInstance()->AddScore(maxEnemies);
+			Score::GetInstance()->AddScore();
 			enemy.isActive = false; // 生存フラグをfalse
 
 

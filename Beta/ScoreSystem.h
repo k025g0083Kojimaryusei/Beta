@@ -63,6 +63,8 @@ public:
 	// 1位のスコアにフォーカスを合わせる
 	void FocusOnFirstPlace();
 
+	void DrawScoreSprite(Vector2 pos, const std::string& s, float spacing);
+
 private:
 	ScoreSystem();
 
@@ -105,9 +107,9 @@ private:
 	void DrawNameSprite(Vector2 pos,  std::string& name, float spacing);
 
 
-	Vector2 inputScorePos = {483.0f,407.0f};
+	Vector2 inputScorePos = {470.0f,407.0f};
 	float inputScoreSpacing = 50.0f;
-	Vector2 inputNamePos = {665.0f,241.0f};
+	Vector2 inputNamePos = {419.0f,241.0f};
 	float inputNameSpacing = 57.0f;
 
 
@@ -115,9 +117,9 @@ private:
 	float rowHeight = 90.0f;                    // 各行の間隔
 	float columnSpacing = 200.0f;               // 順位、名前、スコアの列の間隔
 
-	Vector2 rankBasePos = { 250.0f, 150.0f };
-	Vector2 nameBasePos = { 370.0f, 150.0f };
-	Vector2 scoreBasePos = { 773.0f, 150.0f };
+	Vector2 rankBasePos = { 122.0f, 150.0f };
+	Vector2 nameBasePos = { 254.0f, 150.0f };
+	Vector2 scoreBasePos = { 761.0f, 150.0f };
 
 	// --- 間隔の個別設定 ---
 	float rankSpacing = 40.0f;
@@ -196,7 +198,7 @@ private:
 
 	// 数字のテクスチャ
 	int numberTexture[10] = {
-	Novice::LoadTexture("./texture/name/1.png"),
+	Novice::LoadTexture("./texture/name/1.png"),	
 	Novice::LoadTexture("./texture/name/2.png"),
 	Novice::LoadTexture("./texture/name/3.png"),
 	Novice::LoadTexture("./texture/name/4.png"),

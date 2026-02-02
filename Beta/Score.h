@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "ComboManager.h"
+#include <cmath>
+#include <algorithm>
 class Score {
 public:
     static Score* GetInstance() {
@@ -7,9 +9,11 @@ public:
         return &instance;
     }
 
-    void AddScore(int maxEnemies) {
+    void AddScore() {
 		int combo = ComboManager::GetInstance()->GetComboCount();
-        targetScore_ += (100 * combo * combo) / maxEnemies;
+        int baseScore = 10; // 基本スコア
+		int multiplier = 1 << (combo / 10); 
+		targetScore_ += baseScore * combo * multiplier;
     }
 
     // 毎フレーム呼び出して、表示スコアを目標スコアに近づける

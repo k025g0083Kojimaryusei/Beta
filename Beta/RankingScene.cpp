@@ -5,7 +5,7 @@
 RankingScene::RankingScene(SceneManager* manager)
 	: sceneManager(manager), bg_()
 {
-	bgTexture_ = Novice::LoadTexture("./Textures/UI/BackGround/ranking4.png");
+	bgTexture_ = Novice::LoadTexture("./Textures/UI/BackGround/ranking6.png");
 	enterTexture_ = Novice::LoadTexture("./Textures/UI/enter.png");
 
 	breathEasing_.Init(1.0f, 1.012f, 120, EasingType::EASING_EASE_IN_OUT_SINE); // scale: 1.0 <-> 1.012, 120 frames per cycle
